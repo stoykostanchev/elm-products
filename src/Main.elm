@@ -3,6 +3,8 @@ module Main exposing (..)
 import Browser
 import Html exposing (Html, div, h1, img, text)
 import Html.Attributes exposing (src)
+import Json.Decode exposing (Decoder, field, int, list, maybe, string, succeed)
+import Json.Decode.Extra exposing (andMap)
 
 
 
@@ -10,12 +12,45 @@ import Html.Attributes exposing (src)
 
 
 type alias Model =
-    {}
+    { cars : List Car
+    , activeCar : Maybe Car
+    }
+
+
+type alias Car =
+    { id : Int
+    , make : String
+    , model : String
+    , imgUrl : String
+    , rrp : Int
+    , summary : String
+    , carwowRating : Int
+    , availableColors : Maybe (List String)
+    , recommendedEngine : Maybe String
+    }
+
+
+decodeCarFullDetails : Decoder Car
+decodeCarFullDetails =
+    succeed Car
+        |> andMap (field "id" int)
+        |> andMap (field "make" string)
+        |> andMap (field "model" string)
+        |> andMap (field "imgUrl" string)
+        |> andMap (field "rrp" int)
+        |> andMap (field "summary" string)
+        |> andMap (field "carwowrating" int)
+        |> andMap (field "availableColors" (maybe (list string)))
+        |> andMap (field "recommendedEngine" (maybe string))
 
 
 init : ( Model, Cmd Msg )
 init =
-    ( {}, Cmd.none )
+    ( { cars = []
+      , activeCar = Nothing
+      }
+    , Cmd.none
+    )
 
 
 
