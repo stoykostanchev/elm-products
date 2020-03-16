@@ -80,26 +80,24 @@ update msg model =
         CarsLoaded r ->
             case r of
                 Ok cars ->
-                    ( { model | cars = cars }, Cmd.none )
-
-                Err e ->
-                    ( { model | err = Just (toString e) }, Cmd.none )
-
-        ActiveCarLoaded r ->
-            case r of
-                Ok car ->
-                    ( { cars = [ car ]
-                      , activeCar = Just car
-                      , err = Nothing
-                      }
+                    ( { model | cars = cars }
                     , Cmd.none
                     )
 
                 Err e ->
-                    ( { cars = []
-                      , activeCar = Nothing
-                      , err = Just (toString e)
-                      }
+                    ( { model | err = Just (toString e) }
+                    , Cmd.none
+                    )
+
+        ActiveCarLoaded r ->
+            case r of
+                Ok car ->
+                    ( { model | activeCar = Just car }
+                    , Cmd.none
+                    )
+
+                Err e ->
+                    ( { model | activeCar = Nothing, err = Just (toString e) }
                     , Cmd.none
                     )
 
