@@ -2,7 +2,7 @@ module Main exposing (..)
 
 import Browser
 import Debug exposing (toString)
-import Html exposing (Html, div, h1, img, text)
+import Html exposing (Html, div, h1, h2, img, p, text)
 import Html.Attributes exposing (src)
 import Http
 import Json.Decode exposing (Decoder, field, int, list, maybe, string, succeed)
@@ -47,13 +47,21 @@ decodeCarFullDetails =
         |> andMap (maybe (field "recommended_engine" string))
 
 
+decodeCars : Decoder (List Car)
+decodeCars =
+    list decodeCarFullDetails
+
+
 init : ( Model, Cmd Msg )
 init =
     ( { cars = []
       , activeCar = Nothing
       , err = Nothing
       }
-    , loadActiveCar
+    , Cmd.batch
+        [ loadActiveCar
+        , loadCars
+        ]
     )
 
 
@@ -63,11 +71,20 @@ init =
 
 type Msg
     = ActiveCarLoaded (Result Http.Error Car)
+    | CarsLoaded (Result Http.Error (List Car))
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
+        CarsLoaded r ->
+            case r of
+                Ok cars ->
+                    ( { model | cars = cars }, Cmd.none )
+
+                Err e ->
+                    ( { model | err = Just (toString e) }, Cmd.none )
+
         ActiveCarLoaded r ->
             case r of
                 Ok car ->
@@ -91,20 +108,39 @@ update msg model =
 ---- VIEW ----
 
 
+carView : Car -> Html Msg
+carView c =
+    div []
+        [ h2 [] [ text c.model ]
+        , img [ src c.imgUrl ] []
+        , p [] [ text c.model ]
+        ]
+
+
 view : Model -> Html Msg
 view model =
     div []
-        [ case model.activeCar of
-            Just car ->
-                img [ src (.imgUrl car) ] []
+        [ div []
+            [ case model.activeCar of
+                Just car ->
+                    div []
+                        [ h1 [] [ text ("Selected car: " ++ car.model) ]
+                        ]
 
-            Nothing ->
-                case model.err of
-                    Just a ->
-                        h1 [] [ text a ]
+                Nothing ->
+                    case model.err of
+                        Just a ->
+                            h1 [] [ text a ]
 
-                    Nothing ->
-                        h1 [] [ text "Unknown" ]
+                        Nothing ->
+                            h1 [] [ text "Unknown" ]
+            ]
+        , div
+            []
+            (List.map
+                carView
+                model.cars
+            )
         ]
 
 
@@ -126,9 +162,37 @@ main =
 -- HTTP
 
 
+formUrl : String -> String
+formUrl =
+    (++) "https://warm-dawn-92320.herokuapp.com/model"
+
+
+getCar : Maybe Int -> String
+getCar id =
+    case id of
+        Just param ->
+            formUrl "/" ++ String.fromInt param
+
+        Nothing ->
+            formUrl "s"
+
+
+getAllCars : String
+getAllCars =
+    getCar Nothing
+
+
 loadActiveCar : Cmd Msg
 loadActiveCar =
     Http.get
-        { url = "https://warm-dawn-92320.herokuapp.com/model/1"
+        { url = getCar (Just 1)
         , expect = Http.expectJson ActiveCarLoaded decodeCarFullDetails
+        }
+
+
+loadCars : Cmd Msg
+loadCars =
+    Http.get
+        { url = getAllCars
+        , expect = Http.expectJson CarsLoaded decodeCars
         }
