@@ -3,7 +3,7 @@ module Car exposing (..)
 import Browser
 import Debug exposing (toString)
 import Html exposing (Html, a, div, h1, h2, img, p, text)
-import Html.Attributes exposing (href, src)
+import Html.Attributes exposing (class, href, src)
 import Http
 import Json.Decode exposing (Decoder, field, int, list, maybe, string, succeed)
 import Json.Decode.Extra exposing (andMap)
@@ -105,7 +105,7 @@ update msg model =
 
 carView : Car -> Html Msg
 carView c =
-    div []
+    div [ class "car" ]
         [ h2 [] [ text c.model ]
         , img [ src c.imgUrl ] []
         , p [] [ text c.model ]
@@ -119,7 +119,7 @@ view model =
         [ div []
             [ case model.activeCar of
                 Just car ->
-                    div []
+                    div [ class "car-view" ]
                         [ h1 [] [ text ("Selected car: " ++ car.model) ]
                         ]
 

@@ -22,5 +22,16 @@ h1 {
 
 img {
   margin: 20px 0;
+  animation: fadein 1s;
   max-width: 200px;
+}
+
+@keyframes fadein {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+.car, .car-view {
+  height: 320px;
+  animation: fadein 1s;
 }
