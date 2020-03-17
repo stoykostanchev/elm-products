@@ -1,10 +1,10 @@
 module Main exposing (..)
 
-import Browser exposing (Document, UrlRequest)
+import Browser exposing (..)
 import Browser.Navigation as Nav
 import Car
 import Debug exposing (log, toString)
-import Html exposing (Html, div, h1, h2, img, p, text)
+import Html.Styled exposing (..)
 import Route exposing (Route)
 import Url exposing (Url)
 
@@ -88,7 +88,7 @@ update msg model =
 view : Model -> Document Msg
 view model =
     { title = "Carwow"
-    , body = [ currentView model ]
+    , body = [ toUnstyled (currentView model) ]
     }
 
 
@@ -100,11 +100,11 @@ currentView model =
 
         ListCarsPage pageModel ->
             Car.view pageModel
-                |> Html.map ListCarsPageMsg
+                |> map ListCarsPageMsg
 
         CarView pageModel ->
             Car.view pageModel
-                |> Html.map ListCarsPageMsg
+                |> map ListCarsPageMsg
 
 
 notFoundView : Html Msg

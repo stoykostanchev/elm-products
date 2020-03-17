@@ -1,12 +1,14 @@
 module Car exposing (..)
 
 import Browser
+import Css exposing (borderColor, px)
 import Debug exposing (toString)
-import Html exposing (Html, a, div, h1, h2, img, p, text)
-import Html.Attributes exposing (class, href, src)
+import Html.Styled exposing (..)
+import Html.Styled.Attributes exposing (..)
 import Http
 import Json.Decode exposing (Decoder, field, int, list, maybe, string, succeed)
 import Json.Decode.Extra exposing (andMap)
+import Theme
 
 
 
@@ -17,6 +19,7 @@ type alias Model =
     { cars : List Car
     , activeCar : Maybe Car
     , err : Maybe String
+    , theme : Theme.Model
     }
 
 
@@ -43,20 +46,25 @@ decodeCarFullDetails =
         |> andMap (field "rrp" int)
         |> andMap (field "summary" string)
         |> andMap (field "carwow_rating" int)
-        |> andMap (maybe (field "available_colors" (list string)))
+        |> andMap (maybe (field "available_colors" (Json.Decode.list string)))
         |> andMap (maybe (field "recommended_engine" string))
 
 
 decodeCars : Decoder (List Car)
 decodeCars =
-    list decodeCarFullDetails
+    Json.Decode.list decodeCarFullDetails
 
 
 init : ( Model, Cmd Msg )
 init =
+    let
+        ( theme, _ ) =
+            Theme.init
+    in
     ( { cars = []
       , activeCar = Nothing
       , err = Nothing
+      , theme = theme
       }
     , loadCars
     )
@@ -103,13 +111,19 @@ update msg model =
 ---- VIEW ----
 
 
-carView : Car -> Html Msg
-carView c =
-    div [ class "car" ]
+carView : Theme.Model -> Car -> Html Msg
+carView t c =
+    div
+        [ class "car"
+        , css
+            [ borderColor t.colors.primary_100
+            ]
+        ]
         [ h2 [] [ text c.model ]
         , img [ src c.imgUrl ] []
         , p [] [ text c.model ]
         , a [ href ("/car/" ++ String.fromInt c.id) ] [ text "View details" ]
+        , p [] [ text ("Theme data available:" ++ String.fromFloat t.typography.h1) ]
         ]
 
 
@@ -134,7 +148,7 @@ view model =
         , div
             []
             (List.map
-                carView
+                (carView model.theme)
                 model.cars
             )
         ]
@@ -147,7 +161,7 @@ view model =
 main : Program () Model Msg
 main =
     Browser.element
-        { view = view
+        { view = view >> toUnstyled
         , init = \_ -> init
         , update = update
         , subscriptions = always Sub.none
