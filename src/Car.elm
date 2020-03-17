@@ -2,8 +2,8 @@ module Car exposing (..)
 
 import Browser
 import Debug exposing (toString)
-import Html exposing (Html, div, h1, h2, img, p, text)
-import Html.Attributes exposing (src)
+import Html exposing (Html, a, div, h1, h2, img, p, text)
+import Html.Attributes exposing (href, src)
 import Http
 import Json.Decode exposing (Decoder, field, int, list, maybe, string, succeed)
 import Json.Decode.Extra exposing (andMap)
@@ -58,10 +58,7 @@ init =
       , activeCar = Nothing
       , err = Nothing
       }
-    , Cmd.batch
-        [ loadActiveCar
-        , loadCars
-        ]
+    , loadCars
     )
 
 
@@ -112,6 +109,7 @@ carView c =
         [ h2 [] [ text c.model ]
         , img [ src c.imgUrl ] []
         , p [] [ text c.model ]
+        , a [ href ("/car/" ++ String.fromInt c.id) ] [ text "View details" ]
         ]
 
 
@@ -131,7 +129,7 @@ view model =
                             h1 [] [ text a ]
 
                         Nothing ->
-                            h1 [] [ text "Unknown" ]
+                            text ""
             ]
         , div
             []
@@ -180,10 +178,10 @@ getAllCars =
     getCar Nothing
 
 
-loadActiveCar : Cmd Msg
-loadActiveCar =
+loadActiveCar : Int -> Cmd Msg
+loadActiveCar n =
     Http.get
-        { url = getCar (Just 1)
+        { url = getCar (Just n)
         , expect = Http.expectJson ActiveCarLoaded decodeCarFullDetails
         }
 

@@ -23,6 +23,7 @@ type alias Model =
 type Page
     = NotFoundPage
     | ListCarsPage Car.Model
+    | CarView Car.Model
 
 
 
@@ -38,6 +39,15 @@ type Msg
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case ( msg, model.page ) of
+        ( ListCarsPageMsg subMsg, CarView pageModel ) ->
+            let
+                ( updatedPageModel, updatedCmd ) =
+                    Car.update subMsg pageModel
+            in
+            ( { model | page = ListCarsPage updatedPageModel }
+            , Cmd.map ListCarsPageMsg updatedCmd
+            )
+
         ( ListCarsPageMsg subMsg, ListCarsPage pageModel ) ->
             let
                 ( updatedPageModel, updatedCmd ) =
@@ -46,6 +56,26 @@ update msg model =
             ( { model | page = ListCarsPage updatedPageModel }
             , Cmd.map ListCarsPageMsg updatedCmd
             )
+
+        ( LinkClicked urlRequest, _ ) ->
+            case urlRequest of
+                Browser.Internal url ->
+                    ( model
+                    , Nav.pushUrl model.navKey (Url.toString url)
+                    )
+
+                Browser.External url ->
+                    ( model
+                    , Nav.load url
+                    )
+
+        ( UrlChanged url, _ ) ->
+            let
+                newRoute =
+                    Route.parseUrl url
+            in
+            ( { model | route = newRoute }, Cmd.none )
+                |> initCurrentPage
 
         ( _, _ ) ->
             ( model, Cmd.none )
@@ -69,6 +99,10 @@ currentView model =
             notFoundView
 
         ListCarsPage pageModel ->
+            Car.view pageModel
+                |> Html.map ListCarsPageMsg
+
+        CarView pageModel ->
             Car.view pageModel
                 |> Html.map ListCarsPageMsg
 
@@ -113,6 +147,13 @@ initCurrentPage ( model, existingCmds ) =
             case model.route of
                 Route.NotFound ->
                     ( NotFoundPage, Cmd.none )
+
+                Route.CarView carId ->
+                    let
+                        ( pageModel, _ ) =
+                            Car.init
+                    in
+                    ( CarView pageModel, Cmd.map ListCarsPageMsg (Car.loadActiveCar carId) )
 
                 Route.Cars ->
                     let
