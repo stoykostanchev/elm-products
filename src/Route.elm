@@ -7,7 +7,7 @@ import Url.Parser exposing ((</>), Parser, int, map, oneOf, parse, s, top)
 type Route
     = NotFound
     | Products
-    | ProductView Int
+    | ProductDetails Int
 
 
 parseUrl : Url -> Route
@@ -25,5 +25,5 @@ matchRoute =
     oneOf
         [ map Products top
         , map Products (s "products")
-        , map ProductView (s "product" </> int)
+        , map ProductDetails (s "product" </> int)
         ]

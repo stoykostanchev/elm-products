@@ -2,10 +2,10 @@ module Main exposing (..)
 
 import Browser exposing (..)
 import Browser.Navigation as Nav
-import Car as Product
-import CarView as ProductView
 import Debug exposing (log, toString)
 import Html.Styled exposing (..)
+import ProductDetails
+import ProductList
 import Route exposing (Route)
 import Url exposing (Url)
 
@@ -23,8 +23,8 @@ type alias Model =
 
 type Page
     = NotFoundPage
-    | ListProductsPage Product.Model
-    | ProductView ProductView.Model
+    | ProductListPage ProductList.Model
+    | ProductDetailsPage ProductDetails.Model
 
 
 
@@ -32,8 +32,8 @@ type Page
 
 
 type Msg
-    = ListProductsPageMsg Product.Msg
-    | ProductViewPageMsg ProductView.Msg
+    = ProductListMsg ProductList.Msg
+    | ProductDetailsMsg ProductDetails.Msg
     | LinkClicked UrlRequest
     | UrlChanged Url
 
@@ -41,22 +41,22 @@ type Msg
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case ( msg, model.page ) of
-        ( ProductViewPageMsg subMsg, ProductView pageModel ) ->
+        ( ProductDetailsMsg subMsg, ProductDetailsPage pageModel ) ->
             let
                 ( updatedPageModel, updatedCmd ) =
-                    ProductView.update subMsg pageModel
+                    ProductDetails.update subMsg pageModel
             in
-            ( { model | page = ProductView updatedPageModel }
-            , Cmd.map ProductViewPageMsg updatedCmd
+            ( { model | page = ProductDetailsPage updatedPageModel }
+            , Cmd.map ProductDetailsMsg updatedCmd
             )
 
-        ( ListProductsPageMsg subMsg, ListProductsPage pageModel ) ->
+        ( ProductListMsg subMsg, ProductListPage pageModel ) ->
             let
                 ( updatedPageModel, updatedCmd ) =
-                    Product.update subMsg pageModel
+                    ProductList.update subMsg pageModel
             in
-            ( { model | page = ListProductsPage updatedPageModel }
-            , Cmd.map ListProductsPageMsg updatedCmd
+            ( { model | page = ProductListPage updatedPageModel }
+            , Cmd.map ProductListMsg updatedCmd
             )
 
         ( LinkClicked urlRequest, _ ) ->
@@ -100,13 +100,13 @@ currentView model =
         NotFoundPage ->
             notFoundView
 
-        ListProductsPage pageModel ->
-            Product.view pageModel
-                |> map ListProductsPageMsg
+        ProductListPage pageModel ->
+            ProductList.view pageModel
+                |> map ProductListMsg
 
-        ProductView pageModel ->
-            ProductView.view pageModel
-                |> map ProductViewPageMsg
+        ProductDetailsPage pageModel ->
+            ProductDetails.view pageModel
+                |> map ProductDetailsMsg
 
 
 notFoundView : Html Msg
@@ -150,19 +150,19 @@ initCurrentPage ( model, existingCmds ) =
                 Route.NotFound ->
                     ( NotFoundPage, Cmd.none )
 
-                Route.ProductView productId ->
+                Route.ProductDetails productId ->
                     let
                         ( pageModel, _ ) =
-                            ProductView.init
+                            ProductDetails.init
                     in
-                    ( ProductView pageModel, Cmd.map ProductViewPageMsg (ProductView.loadActiveProduct productId) )
+                    ( ProductDetailsPage pageModel, Cmd.map ProductDetailsMsg (ProductDetails.loadActiveProduct productId) )
 
                 Route.Products ->
                     let
                         ( pageModel, pageCmds ) =
-                            Product.init
+                            ProductList.init
                     in
-                    ( ListProductsPage pageModel, Cmd.map ListProductsPageMsg pageCmds )
+                    ( ProductListPage pageModel, Cmd.map ProductListMsg pageCmds )
     in
     ( { model | page = currentPage }
     , Cmd.batch [ existingCmds, mappedPageCmds ]

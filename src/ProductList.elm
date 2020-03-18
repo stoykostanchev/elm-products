@@ -1,4 +1,4 @@
-module Car exposing (..)
+module ProductList exposing (..)
 
 import Browser
 import Css exposing (borderColor, px)

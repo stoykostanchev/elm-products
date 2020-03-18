@@ -1,11 +1,11 @@
-module CarView exposing (..)
+module ProductDetails exposing (..)
 
 import Browser
-import Car exposing (Product, decodeProductFullDetails, getProduct)
 import Debug exposing (toString)
 import Html.Styled exposing (..)
 import Html.Styled.Attributes exposing (..)
 import Http
+import ProductList exposing (Product, decodeProductFullDetails, getProduct)
 import Theme
 
 
