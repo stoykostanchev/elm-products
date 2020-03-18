@@ -3,6 +3,7 @@ module Main exposing (..)
 import Browser exposing (..)
 import Browser.Navigation as Nav
 import Debug exposing (log, toString)
+import Header exposing (..)
 import Html.Styled exposing (..)
 import ProductDetails
 import ProductList
@@ -90,7 +91,18 @@ update msg model =
 view : Model -> Document Msg
 view model =
     { title = "Carwow"
-    , body = [ toUnstyled (currentView model) ]
+    , body =
+        List.map toUnstyled
+            [ Header.view
+                (case model.page of
+                    ProductListPage _ ->
+                        { backBtnShown = False, editorExpanded = False }
+
+                    _ ->
+                        { backBtnShown = True, editorExpanded = False }
+                )
+            , main_ [] [ currentView model ]
+            ]
     }
 
 
