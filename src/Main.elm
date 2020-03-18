@@ -3,6 +3,7 @@ module Main exposing (..)
 import Browser exposing (..)
 import Browser.Navigation as Nav
 import Car
+import CarView
 import Debug exposing (log, toString)
 import Html.Styled exposing (..)
 import Route exposing (Route)
@@ -23,7 +24,7 @@ type alias Model =
 type Page
     = NotFoundPage
     | ListCarsPage Car.Model
-    | CarView Car.Model
+    | CarView CarView.Model
 
 
 
@@ -32,6 +33,7 @@ type Page
 
 type Msg
     = ListCarsPageMsg Car.Msg
+    | CarViewPageMsg CarView.Msg
     | LinkClicked UrlRequest
     | UrlChanged Url
 
@@ -39,13 +41,13 @@ type Msg
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case ( msg, model.page ) of
-        ( ListCarsPageMsg subMsg, CarView pageModel ) ->
+        ( CarViewPageMsg subMsg, CarView pageModel ) ->
             let
                 ( updatedPageModel, updatedCmd ) =
-                    Car.update subMsg pageModel
+                    CarView.update subMsg pageModel
             in
-            ( { model | page = ListCarsPage updatedPageModel }
-            , Cmd.map ListCarsPageMsg updatedCmd
+            ( { model | page = CarView updatedPageModel }
+            , Cmd.map CarViewPageMsg updatedCmd
             )
 
         ( ListCarsPageMsg subMsg, ListCarsPage pageModel ) ->
@@ -103,8 +105,8 @@ currentView model =
                 |> map ListCarsPageMsg
 
         CarView pageModel ->
-            Car.view pageModel
-                |> map ListCarsPageMsg
+            CarView.view pageModel
+                |> map CarViewPageMsg
 
 
 notFoundView : Html Msg
@@ -151,9 +153,9 @@ initCurrentPage ( model, existingCmds ) =
                 Route.CarView carId ->
                     let
                         ( pageModel, _ ) =
-                            Car.init
+                            CarView.init
                     in
-                    ( CarView pageModel, Cmd.map ListCarsPageMsg (Car.loadActiveCar carId) )
+                    ( CarView pageModel, Cmd.map CarViewPageMsg (CarView.loadActiveCar carId) )
 
                 Route.Cars ->
                     let

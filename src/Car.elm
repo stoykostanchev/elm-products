@@ -17,7 +17,6 @@ import Theme
 
 type alias Model =
     { cars : List Car
-    , activeCar : Maybe Car
     , err : Maybe String
     , theme : Theme.Model
     }
@@ -62,7 +61,6 @@ init =
             Theme.init
     in
     ( { cars = []
-      , activeCar = Nothing
       , err = Nothing
       , theme = theme
       }
@@ -75,8 +73,7 @@ init =
 
 
 type Msg
-    = ActiveCarLoaded (Result Http.Error Car)
-    | CarsLoaded (Result Http.Error (List Car))
+    = CarsLoaded (Result Http.Error (List Car))
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -94,25 +91,13 @@ update msg model =
                     , Cmd.none
                     )
 
-        ActiveCarLoaded r ->
-            case r of
-                Ok car ->
-                    ( { model | activeCar = Just car }
-                    , Cmd.none
-                    )
-
-                Err e ->
-                    ( { model | activeCar = Nothing, err = Just (toString e) }
-                    , Cmd.none
-                    )
-
 
 
 ---- VIEW ----
 
 
-carView : Theme.Model -> Car -> Html Msg
-carView t c =
+carCard : Theme.Model -> Car -> Html Msg
+carCard t c =
     div
         [ class "car"
         , css
@@ -131,25 +116,10 @@ view : Model -> Html Msg
 view model =
     div []
         [ Theme.themeStyles model.theme
-        , div []
-            [ case model.activeCar of
-                Just car ->
-                    div [ class "car-view" ]
-                        [ h1 [] [ text ("Selected car: " ++ car.model) ]
-                        ]
-
-                Nothing ->
-                    case model.err of
-                        Just a ->
-                            h1 [] [ text a ]
-
-                        Nothing ->
-                            text ""
-            ]
         , div
             []
             (List.map
-                (carView model.theme)
+                (carCard model.theme)
                 model.cars
             )
         ]
@@ -191,14 +161,6 @@ getCar id =
 getAllCars : String
 getAllCars =
     getCar Nothing
-
-
-loadActiveCar : Int -> Cmd Msg
-loadActiveCar n =
-    Http.get
-        { url = getCar (Just n)
-        , expect = Http.expectJson ActiveCarLoaded decodeCarFullDetails
-        }
 
 
 loadCars : Cmd Msg
