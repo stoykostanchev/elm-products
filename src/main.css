@@ -9,21 +9,17 @@
   height: inherit;
 }
 
-body {
-  font-family: 'Source Sans Pro', 'Trebuchet MS', 'Lucida Grande', 'Bitstream Vera Sans', 'Helvetica Neue', sans-serif;
+html, body {
   margin: 0;
-  text-align: center;
-  color: #293c4b;
+  padding: 0;
 }
 
-h1 {
-  font-size: 30px;
+* {
+  box-sizing: border-box;
 }
 
 img {
-  margin: 20px 0;
   animation: fadein 1s;
-  max-width: 200px;
 }
 
 @keyframes fadein {

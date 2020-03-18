@@ -96,20 +96,67 @@ update msg model =
 ---- VIEW ----
 
 
-productCard : Theme.Model -> Product -> Html Msg
-productCard t c =
+marginLeftIfDevisible : Int -> Int -> Float -> Style
+marginLeftIfDevisible i n size =
+    marginLeft <|
+        px <|
+            -- only the Ith item MUST have a left margin
+            if remainderBy n i == 0 then
+                size
+
+            else
+                0
+
+
+productCard : Theme.Model -> Int -> Product -> Html Msg
+productCard t i c =
     li
         [ class "product"
         , css
-            [ border3 (px 1) solid t.colors.primary_100
+            [ listStyle none
+            , borderRadius <| px 5
+            , border3 (px 1) solid t.colors.primary_100
+            , margin <| px t.spacing.space_m
+            , padding <| px t.spacing.space_m
+            , marginTop <| px t.spacing.space_m
+            , marginRight <| px t.spacing.space_m
+            , marginBottom <| px 0
+            , Theme.overL
+                [ Css.width (calc (pct 25) minus (px ((5 / 4) * t.spacing.space_m)))
+                , marginLeftIfDevisible i 4 t.spacing.space_m
+                ]
+            , Theme.overM
+                [ Css.width (calc (pct ((1.0 / 3.0) * 100)) minus (px ((4 / 3) * t.spacing.space_m)))
+                , marginLeftIfDevisible i 3 t.spacing.space_m
+                ]
+            , Theme.overS
+                [ Css.width (calc (pct 50) minus (px ((3 / 2) * t.spacing.space_m)))
+                , marginLeftIfDevisible i 2 t.spacing.space_m
+                ]
             ]
         ]
-        [ h2 [] [ text c.model ]
+        [ img
+            [ src c.imgUrl
+            , css [ Css.width <| pct 100 ]
+            ]
+            []
+        , h2 [] [ text c.model ]
         , p [] [ text c.make ]
-        , img [ src c.imgUrl ] []
         , p [] [ text c.summary ]
         , p [] [ text <| String.fromInt c.carwowRating ]
-        , a [ href ("/product/" ++ String.fromInt c.id) ] [ text "View details" ]
+        , a
+            [ href ("/product/" ++ String.fromInt c.id)
+            , css
+                [ backgroundColor t.colors.primary_200
+                , color t.colors.textInverted
+                , display block
+                , padding <| px t.spacing.space_m
+                , textAlign center
+                , borderRadius <| px 5
+                , textDecoration none
+                ]
+            ]
+            [ text "View details" ]
         ]
 
 
@@ -118,8 +165,16 @@ view model =
     section []
         [ Theme.themeStyles model.theme
         , ul
-            []
-            (List.map
+            [ css
+                [ paddingLeft <| px 0
+                , margin <| px 0
+                , Theme.overS
+                    [ displayFlex
+                    , flexWrap Css.wrap
+                    ]
+                ]
+            ]
+            (List.indexedMap
                 (productCard model.theme)
                 model.products
             )

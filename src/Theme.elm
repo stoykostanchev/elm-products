@@ -2,6 +2,7 @@ module Theme exposing (..)
 
 import Css exposing (..)
 import Css.Global exposing (global, selector)
+import Css.Media exposing (..)
 import Html.Styled exposing (..)
 
 
@@ -10,14 +11,14 @@ import Html.Styled exposing (..)
 
 
 type alias Typography =
-    { h1 : Float
-    , h2 : Float
-    , h3 : Float
-    , h4 : Float
-    , h5 : Float
-    , p : Float
-    , helper : Float
-    , copyright : Float
+    { h1 : Rem
+    , h2 : Rem
+    , h3 : Rem
+    , h4 : Rem
+    , h5 : Rem
+    , p : Rem
+    , helper : Rem
+    , copyright : Rem
     }
 
 
@@ -38,12 +39,12 @@ type alias Colors =
 
 
 type alias Spacing =
-    { space_default : Int
-    , space_xs : Int
-    , space_s : Int
-    , space_m : Int
-    , space_l : Int
-    , space_xl : Int
+    { space_default : Float
+    , space_xs : Float
+    , space_s : Float
+    , space_m : Float
+    , space_l : Float
+    , space_xl : Float
     }
 
 
@@ -67,8 +68,8 @@ defaultTheme =
         , neutral_300 = rgb 120 120 120
         , neutral_400 = rgb 120 120 120
         , neutral_500 = rgb 120 120 120
-        , text = rgb 120 120 120
-        , textInverted = rgb 120 120 120
+        , text = rgb 0 0 0
+        , textInverted = rgb 255 255 255
         }
     , spacing =
         { space_default = 16
@@ -79,14 +80,14 @@ defaultTheme =
         , space_xl = 64
         }
     , typography =
-        { h1 = 1.8
-        , h2 = 1.6
-        , h3 = 1.4
-        , h4 = 1.2
-        , h5 = 1.1
-        , p = 1
-        , helper = 0.8
-        , copyright = 0.7
+        { h1 = rem 1.8
+        , h2 = rem 1.6
+        , h3 = rem 1.4
+        , h4 = rem 1.2
+        , h5 = rem 1.1
+        , p = rem 1
+        , helper = rem 0.8
+        , copyright = rem 0.7
         }
     }
 
@@ -98,10 +99,38 @@ init =
     )
 
 
+
+---- PROGRAM ----
+
+
 themeStyles : Model -> Html msg
 themeStyles model =
     global
         [ selector "body"
-            [ color model.colors.text
+            [ Css.color model.colors.text
             ]
         ]
+
+
+over : Float -> List Style -> Style
+over x =
+    withMedia
+        [ only screen
+            [ Css.Media.minWidth (px x)
+            ]
+        ]
+
+
+overS : List Style -> Style
+overS =
+    over 568
+
+
+overM : List Style -> Style
+overM =
+    over 768
+
+
+overL : List Style -> Style
+overL =
+    over 1024
