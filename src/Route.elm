@@ -6,8 +6,8 @@ import Url.Parser exposing ((</>), Parser, int, map, oneOf, parse, s, top)
 
 type Route
     = NotFound
-    | Cars
-    | CarView Int
+    | Products
+    | ProductView Int
 
 
 parseUrl : Url -> Route
@@ -23,7 +23,7 @@ parseUrl url =
 matchRoute : Parser (Route -> a) a
 matchRoute =
     oneOf
-        [ map Cars top
-        , map Cars (s "cars")
-        , map CarView (s "car" </> int)
+        [ map Products top
+        , map Products (s "products")
+        , map ProductView (s "product" </> int)
         ]

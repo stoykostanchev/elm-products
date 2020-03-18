@@ -2,8 +2,8 @@ module Main exposing (..)
 
 import Browser exposing (..)
 import Browser.Navigation as Nav
-import Car
-import CarView
+import Car as Product
+import CarView as ProductView
 import Debug exposing (log, toString)
 import Html.Styled exposing (..)
 import Route exposing (Route)
@@ -23,8 +23,8 @@ type alias Model =
 
 type Page
     = NotFoundPage
-    | ListCarsPage Car.Model
-    | CarView CarView.Model
+    | ListProductsPage Product.Model
+    | ProductView ProductView.Model
 
 
 
@@ -32,8 +32,8 @@ type Page
 
 
 type Msg
-    = ListCarsPageMsg Car.Msg
-    | CarViewPageMsg CarView.Msg
+    = ListProductsPageMsg Product.Msg
+    | ProductViewPageMsg ProductView.Msg
     | LinkClicked UrlRequest
     | UrlChanged Url
 
@@ -41,22 +41,22 @@ type Msg
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case ( msg, model.page ) of
-        ( CarViewPageMsg subMsg, CarView pageModel ) ->
+        ( ProductViewPageMsg subMsg, ProductView pageModel ) ->
             let
                 ( updatedPageModel, updatedCmd ) =
-                    CarView.update subMsg pageModel
+                    ProductView.update subMsg pageModel
             in
-            ( { model | page = CarView updatedPageModel }
-            , Cmd.map CarViewPageMsg updatedCmd
+            ( { model | page = ProductView updatedPageModel }
+            , Cmd.map ProductViewPageMsg updatedCmd
             )
 
-        ( ListCarsPageMsg subMsg, ListCarsPage pageModel ) ->
+        ( ListProductsPageMsg subMsg, ListProductsPage pageModel ) ->
             let
                 ( updatedPageModel, updatedCmd ) =
-                    Car.update subMsg pageModel
+                    Product.update subMsg pageModel
             in
-            ( { model | page = ListCarsPage updatedPageModel }
-            , Cmd.map ListCarsPageMsg updatedCmd
+            ( { model | page = ListProductsPage updatedPageModel }
+            , Cmd.map ListProductsPageMsg updatedCmd
             )
 
         ( LinkClicked urlRequest, _ ) ->
@@ -100,13 +100,13 @@ currentView model =
         NotFoundPage ->
             notFoundView
 
-        ListCarsPage pageModel ->
-            Car.view pageModel
-                |> map ListCarsPageMsg
+        ListProductsPage pageModel ->
+            Product.view pageModel
+                |> map ListProductsPageMsg
 
-        CarView pageModel ->
-            CarView.view pageModel
-                |> map CarViewPageMsg
+        ProductView pageModel ->
+            ProductView.view pageModel
+                |> map ProductViewPageMsg
 
 
 notFoundView : Html Msg
@@ -150,19 +150,19 @@ initCurrentPage ( model, existingCmds ) =
                 Route.NotFound ->
                     ( NotFoundPage, Cmd.none )
 
-                Route.CarView carId ->
+                Route.ProductView productId ->
                     let
                         ( pageModel, _ ) =
-                            CarView.init
+                            ProductView.init
                     in
-                    ( CarView pageModel, Cmd.map CarViewPageMsg (CarView.loadActiveCar carId) )
+                    ( ProductView pageModel, Cmd.map ProductViewPageMsg (ProductView.loadActiveProduct productId) )
 
-                Route.Cars ->
+                Route.Products ->
                     let
                         ( pageModel, pageCmds ) =
-                            Car.init
+                            Product.init
                     in
-                    ( ListCarsPage pageModel, Cmd.map ListCarsPageMsg pageCmds )
+                    ( ListProductsPage pageModel, Cmd.map ListProductsPageMsg pageCmds )
     in
     ( { model | page = currentPage }
     , Cmd.batch [ existingCmds, mappedPageCmds ]

@@ -16,13 +16,13 @@ import Theme
 
 
 type alias Model =
-    { cars : List Car
+    { products : List Product
     , err : Maybe String
     , theme : Theme.Model
     }
 
 
-type alias Car =
+type alias Product =
     { id : Int
     , make : String
     , model : String
@@ -35,9 +35,9 @@ type alias Car =
     }
 
 
-decodeCarFullDetails : Decoder Car
-decodeCarFullDetails =
-    succeed Car
+decodeProductFullDetails : Decoder Product
+decodeProductFullDetails =
+    succeed Product
         |> andMap (field "id" int)
         |> andMap (field "make" string)
         |> andMap (field "model" string)
@@ -49,9 +49,9 @@ decodeCarFullDetails =
         |> andMap (maybe (field "recommended_engine" string))
 
 
-decodeCars : Decoder (List Car)
-decodeCars =
-    Json.Decode.list decodeCarFullDetails
+decodeProducts : Decoder (List Product)
+decodeProducts =
+    Json.Decode.list decodeProductFullDetails
 
 
 init : ( Model, Cmd Msg )
@@ -60,11 +60,11 @@ init =
         ( theme, _ ) =
             Theme.init
     in
-    ( { cars = []
+    ( { products = []
       , err = Nothing
       , theme = theme
       }
-    , loadCars
+    , loadProducts
     )
 
 
@@ -73,16 +73,16 @@ init =
 
 
 type Msg
-    = CarsLoaded (Result Http.Error (List Car))
+    = ProductsLoaded (Result Http.Error (List Product))
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
-        CarsLoaded r ->
+        ProductsLoaded r ->
             case r of
-                Ok cars ->
-                    ( { model | cars = cars }
+                Ok products ->
+                    ( { model | products = products }
                     , Cmd.none
                     )
 
@@ -96,10 +96,10 @@ update msg model =
 ---- VIEW ----
 
 
-carCard : Theme.Model -> Car -> Html Msg
-carCard t c =
+productCard : Theme.Model -> Product -> Html Msg
+productCard t c =
     div
-        [ class "car"
+        [ class "product"
         , css
             [ borderColor t.colors.primary_100
             ]
@@ -107,7 +107,7 @@ carCard t c =
         [ h2 [] [ text c.model ]
         , img [ src c.imgUrl ] []
         , p [] [ text c.model ]
-        , a [ href ("/car/" ++ String.fromInt c.id) ] [ text "View details" ]
+        , a [ href ("/product/" ++ String.fromInt c.id) ] [ text "View details" ]
         , p [] [ text ("Theme data available:" ++ String.fromFloat t.typography.h1) ]
         ]
 
@@ -119,8 +119,8 @@ view model =
         , div
             []
             (List.map
-                (carCard model.theme)
-                model.cars
+                (productCard model.theme)
+                model.products
             )
         ]
 
@@ -148,8 +148,8 @@ formUrl =
     (++) "https://warm-dawn-92320.herokuapp.com/model"
 
 
-getCar : Maybe Int -> String
-getCar id =
+getProduct : Maybe Int -> String
+getProduct id =
     case id of
         Just param ->
             formUrl "/" ++ String.fromInt param
@@ -158,14 +158,14 @@ getCar id =
             formUrl "s"
 
 
-getAllCars : String
-getAllCars =
-    getCar Nothing
+getAllProducts : String
+getAllProducts =
+    getProduct Nothing
 
 
-loadCars : Cmd Msg
-loadCars =
+loadProducts : Cmd Msg
+loadProducts =
     Http.get
-        { url = getAllCars
-        , expect = Http.expectJson CarsLoaded decodeCars
+        { url = getAllProducts
+        , expect = Http.expectJson ProductsLoaded decodeProducts
         }

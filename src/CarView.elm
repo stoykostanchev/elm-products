@@ -1,7 +1,7 @@
 module CarView exposing (..)
 
 import Browser
-import Car exposing (Car, decodeCarFullDetails, getCar)
+import Car exposing (Product, decodeProductFullDetails, getProduct)
 import Debug exposing (toString)
 import Html.Styled exposing (..)
 import Html.Styled.Attributes exposing (..)
@@ -14,7 +14,7 @@ import Theme
 
 
 type alias Model =
-    { activeCar : Maybe Car
+    { activeProduct : Maybe Product
     , theme : Theme.Model
     , err : Maybe String
     }
@@ -26,7 +26,7 @@ init =
         ( theme, _ ) =
             Theme.init
     in
-    ( { activeCar = Nothing
+    ( { activeProduct = Nothing
       , theme = theme
       , err = Nothing
       }
@@ -39,21 +39,21 @@ init =
 
 
 type Msg
-    = ActiveCarLoaded (Result Http.Error Car)
+    = ActiveProductLoaded (Result Http.Error Product)
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
-        ActiveCarLoaded r ->
+        ActiveProductLoaded r ->
             case r of
-                Ok car ->
-                    ( { model | activeCar = Just car }
+                Ok product ->
+                    ( { model | activeProduct = Just product }
                     , Cmd.none
                     )
 
                 Err e ->
-                    ( { model | activeCar = Nothing, err = Just (toString e) }
+                    ( { model | activeProduct = Nothing, err = Just (toString e) }
                     , Cmd.none
                     )
 
@@ -65,10 +65,10 @@ update msg model =
 view : Model -> Html Msg
 view model =
     div []
-        [ case model.activeCar of
-            Just car ->
-                div [ class "car-view" ]
-                    [ h1 [] [ text ("Selected car: " ++ car.model) ]
+        [ case model.activeProduct of
+            Just product ->
+                div [ class "product-view" ]
+                    [ h1 [] [ text ("Selected Product: " ++ product.model) ]
                     ]
 
             Nothing ->
@@ -99,9 +99,9 @@ main =
 ---- HTTP ----
 
 
-loadActiveCar : Int -> Cmd Msg
-loadActiveCar n =
+loadActiveProduct : Int -> Cmd Msg
+loadActiveProduct n =
     Http.get
-        { url = getCar (Just n)
-        , expect = Http.expectJson ActiveCarLoaded decodeCarFullDetails
+        { url = getProduct (Just n)
+        , expect = Http.expectJson ActiveProductLoaded decodeProductFullDetails
         }
