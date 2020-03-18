@@ -130,7 +130,8 @@ carView t c =
 view : Model -> Html Msg
 view model =
     div []
-        [ div []
+        [ Theme.themeStyles model.theme
+        , div []
             [ case model.activeCar of
                 Just car ->
                     div [ class "car-view" ]

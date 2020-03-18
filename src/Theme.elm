@@ -1,6 +1,8 @@
 module Theme exposing (..)
 
-import Css exposing (Color, rgb)
+import Css exposing (..)
+import Css.Global exposing (global, selector)
+import Html.Styled exposing (..)
 
 
 
@@ -94,3 +96,12 @@ init =
     ( defaultTheme
     , Cmd.none
     )
+
+
+themeStyles : Model -> Html msg
+themeStyles model =
+    global
+        [ selector "body"
+            [ color model.colors.text
+            ]
+        ]
