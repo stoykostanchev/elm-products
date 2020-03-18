@@ -32,6 +32,5 @@ img {
 }
 
 .product, .product-view {
-  height: 320px;
   animation: fadein 1s;
 }

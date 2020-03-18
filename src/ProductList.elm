@@ -1,7 +1,7 @@
 module ProductList exposing (..)
 
 import Browser
-import Css exposing (borderColor, px)
+import Css exposing (..)
 import Debug exposing (toString)
 import Html.Styled exposing (..)
 import Html.Styled.Attributes exposing (..)
@@ -38,13 +38,13 @@ type alias Product =
 decodeProductFullDetails : Decoder Product
 decodeProductFullDetails =
     succeed Product
-        |> andMap (field "id" int)
+        |> andMap (field "id" Json.Decode.int)
         |> andMap (field "make" string)
         |> andMap (field "model" string)
         |> andMap (field "img_url" string)
-        |> andMap (field "rrp" int)
+        |> andMap (field "rrp" Json.Decode.int)
         |> andMap (field "summary" string)
-        |> andMap (field "carwow_rating" int)
+        |> andMap (field "carwow_rating" Json.Decode.int)
         |> andMap (maybe (field "available_colors" (Json.Decode.list string)))
         |> andMap (maybe (field "recommended_engine" string))
 
@@ -98,25 +98,26 @@ update msg model =
 
 productCard : Theme.Model -> Product -> Html Msg
 productCard t c =
-    div
+    li
         [ class "product"
         , css
-            [ borderColor t.colors.primary_100
+            [ border3 (px 1) solid t.colors.primary_100
             ]
         ]
         [ h2 [] [ text c.model ]
+        , p [] [ text c.make ]
         , img [ src c.imgUrl ] []
-        , p [] [ text c.model ]
+        , p [] [ text c.summary ]
+        , p [] [ text <| String.fromInt c.carwowRating ]
         , a [ href ("/product/" ++ String.fromInt c.id) ] [ text "View details" ]
-        , p [] [ text ("Theme data available:" ++ String.fromFloat t.typography.h1) ]
         ]
 
 
 view : Model -> Html Msg
 view model =
-    div []
+    section []
         [ Theme.themeStyles model.theme
-        , div
+        , ul
             []
             (List.map
                 (productCard model.theme)
