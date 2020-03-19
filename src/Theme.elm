@@ -123,6 +123,13 @@ inline f =
         ]
 
 
+inset : Float -> Style
+inset f =
+    Css.batch
+        [ padding <| px f
+        ]
+
+
 themeStyles : Model -> Html msg
 themeStyles model =
     global

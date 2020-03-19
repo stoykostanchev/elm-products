@@ -99,14 +99,7 @@ view model =
         in
         List.map toUnstyled
             [ Theme.themeStyles theme
-            , Header.view
-                (case model.page of
-                    ProductListPage _ ->
-                        { backBtnShown = False, editorExpanded = False }
-
-                    _ ->
-                        { backBtnShown = True, editorExpanded = False }
-                )
+            , Header.view { editorExpanded = False, theme = theme }
             , main_ [] [ currentView model ]
             ]
     }
