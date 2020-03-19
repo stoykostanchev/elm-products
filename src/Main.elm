@@ -2,6 +2,7 @@ module Main exposing (..)
 
 import Browser exposing (..)
 import Browser.Navigation as Nav
+import Css exposing (hex, rgb)
 import Debug exposing (log, toString)
 import Header exposing (..)
 import Html.Styled exposing (..)
@@ -39,11 +40,51 @@ type Msg
     | ProductDetailsMsg ProductDetails.Msg
     | LinkClicked UrlRequest
     | UrlChanged Url
+    | ThemeChanged Header.Msg
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case ( msg, model.page ) of
+        ( ThemeChanged (Header.Primary1Changed c), page ) ->
+            let
+                oldColors =
+                    model.theme.colors
+
+                oldTheme =
+                    model.theme
+
+                colors =
+                    { oldColors | neutral_100 = hex c }
+
+                theme =
+                    { oldTheme | colors = colors }
+
+                newModel =
+                    { model | theme = theme }
+
+                ( pageUpdatedModel, updatedCmd ) =
+                    case page of
+                        ProductDetailsPage pageModel ->
+                            let
+                                ( a, b ) =
+                                    ProductDetails.update (ProductDetails.ThemeChanged theme) pageModel
+                            in
+                            ( { newModel | page = ProductDetailsPage a }, Cmd.map ProductDetailsMsg b )
+
+                        ProductListPage pageModel ->
+                            let
+                                ( a, b ) =
+                                    ProductList.update (ProductList.ThemeChanged theme) pageModel
+                            in
+                            ( { newModel | page = ProductListPage a }, Cmd.map ProductListMsg b )
+
+                        NotFoundPage ->
+                            ( newModel, Cmd.none )
+            in
+            ( pageUpdatedModel, updatedCmd )
+
+        -- , Cmd.none
         ( ProductDetailsMsg subMsg, ProductDetailsPage pageModel ) ->
             let
                 ( updatedPageModel, updatedCmd ) =

@@ -38,11 +38,15 @@ init theme =
 
 type Msg
     = ActiveProductLoaded (Result Http.Error Product)
+    | ThemeChanged Theme.Model
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
+        ThemeChanged t ->
+            ( { model | theme = t }, Cmd.none )
+
         ActiveProductLoaded r ->
             case r of
                 Ok product ->
@@ -107,6 +111,7 @@ view model =
             section
                 [ css
                     [ padding <| px t.spacing.space_l
+                    , backgroundColor model.theme.colors.neutral_100
                     , overM
                         [ displayFlex
                         , flexDirection row

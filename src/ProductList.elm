@@ -72,11 +72,15 @@ init theme =
 
 type Msg
     = ProductsLoaded (Result Http.Error (List Product))
+    | ThemeChanged Theme.Model
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
+        ThemeChanged t ->
+            ( { model | theme = t }, Cmd.none )
+
         ProductsLoaded r ->
             case r of
                 Ok products ->
