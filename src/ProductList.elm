@@ -181,20 +181,6 @@ view model =
 
 
 
----- PROGRAM ----
-
-
-main : Program () Model Msg
-main =
-    Browser.element
-        { view = view >> toUnstyled
-        , init = \_ -> init
-        , update = update
-        , subscriptions = always Sub.none
-        }
-
-
-
 -- HTTP
 
 
