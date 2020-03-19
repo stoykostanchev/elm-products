@@ -32,9 +32,7 @@ view : Model -> Html msg
 view m =
     nav
         [ css
-            [ position fixed
-            , top <| px 0
-            ]
+            []
         ]
         [ homeLink m
         ]

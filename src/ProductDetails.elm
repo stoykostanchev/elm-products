@@ -109,11 +109,40 @@ view model =
             section
                 [ css
                     [ padding <| px t.spacing.space_l
+                    , overM
+                        [ displayFlex
+                        , flexDirection row
+                        , margin2 (px 0) auto
+                        ]
                     ]
                 ]
-                [ div []
-                    [ img [ src product.imgUrl ] [] ]
-                , div []
+                [ div
+                    [ css
+                        [ displayFlex
+                        , justifyContent center
+                        , alignItems center
+                        , overM
+                            [ marginRight <| px model.theme.spacing.space_m
+                            , flex <| num 1
+                            , maxWidth <| px 512
+                            ]
+                        ]
+                    ]
+                    [ img
+                        [ src product.imgUrl
+                        , css [ Css.maxWidth <| pct 100 ]
+                        ]
+                        []
+                    ]
+                , div
+                    [ css
+                        [ overM
+                            [ marginLeft <| px model.theme.spacing.space_m
+                            , Css.minWidth <| px 360
+                            , flex <| num 1
+                            ]
+                        ]
+                    ]
                     [ h1 [] [ text product.make ]
                     , h2 [] [ text <| product.model ++ "," ++ Maybe.withDefault "" product.recommendedEngine ]
                     , p [] [ text product.summary ]
