@@ -1,13 +1,14 @@
 module ProductDetails exposing (..)
 
 import Browser
+import Button exposing (..)
 import Css exposing (..)
 import Debug exposing (toString)
 import Html.Styled exposing (..)
 import Html.Styled.Attributes exposing (..)
 import Http
 import ProductList exposing (Product, decodeProductFullDetails, getProduct)
-import Theme
+import Theme exposing (..)
 
 
 
@@ -63,20 +64,21 @@ update msg model =
 ---- VIEW ----
 
 
-colorDisplay : String -> Html Msg
-colorDisplay c =
+colorDisplay : Theme.Model -> String -> Html Msg
+colorDisplay t c =
     li
         [ css
             [ backgroundColor <| hex c
             , Css.width <| px 30
             , Css.height <| px 30
+            , Theme.inline t.spacing.space_m
             ]
         ]
         []
 
 
-colorsView : Maybe (List String) -> Html Msg
-colorsView lst =
+colorsView : Theme.Model -> Maybe (List String) -> Html Msg
+colorsView t lst =
     section []
         [ h5 [] [ text "Available colors" ]
         , case lst of
@@ -86,9 +88,10 @@ colorsView lst =
                         [ listStyle none
                         , displayFlex
                         , padding <| px 0
+                        , stack <| t.spacing.space_l
                         ]
                     ]
-                    (List.map colorDisplay clrs)
+                    (List.map (colorDisplay t) clrs)
 
             Nothing ->
                 text ""
@@ -97,28 +100,45 @@ colorsView lst =
 
 view : Model -> Html Msg
 view model =
-    div []
-        [ case model.activeProduct of
-            Just product ->
-                section [ class "product-view" ]
+    let
+        t =
+            model.theme
+    in
+    case model.activeProduct of
+        Just product ->
+            section
+                [ css
+                    [ padding <| px t.spacing.space_l
+                    ]
+                ]
+                [ div []
+                    [ img [ src product.imgUrl ] [] ]
+                , div []
                     [ h1 [] [ text product.make ]
-                    , img [ src product.imgUrl ] []
-                    , p [] [ text <| product.model ++ "," ++ Maybe.withDefault "" product.recommendedEngine ]
+                    , h2 [] [ text <| product.model ++ "," ++ Maybe.withDefault "" product.recommendedEngine ]
                     , p [] [ text product.summary ]
                     , p []
                         [ text <| String.fromInt product.carwowRating ]
-                    , colorsView product.availableColors
-                    , button [] [ text "Get offers" ]
+                    , colorsView model.theme product.availableColors
+                    , a
+                        [ href <| "mailto:company@company.com?subject=Offers for " ++ product.make ++ " " ++ product.model
+                        , css
+                            [ primaryBtnStyle t
+                            , Css.width <| pct 50
+                            , margin2 (px 0) auto
+                            ]
+                        ]
+                        [ text "Get offers" ]
                     ]
+                ]
 
-            Nothing ->
-                case model.err of
-                    Just a ->
-                        h1 [] [ text a ]
+        Nothing ->
+            case model.err of
+                Just a ->
+                    h1 [] [ text a ]
 
-                    Nothing ->
-                        text ""
-        ]
+                Nothing ->
+                    text ""
 
 
 
