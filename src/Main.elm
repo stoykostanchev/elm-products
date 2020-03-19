@@ -78,8 +78,12 @@ update msg model =
                 newRoute =
                     Route.parseUrl url
             in
-            ( { model | route = newRoute }, Cmd.none )
-                |> initCurrentPage
+            if newRoute /= model.route then
+                ( { model | route = newRoute }, Cmd.none )
+                    |> initCurrentPage
+
+            else
+                ( model, Cmd.none )
 
         ( _, _ ) ->
             ( model, Cmd.none )
