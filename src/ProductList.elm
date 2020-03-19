@@ -142,7 +142,7 @@ productCard t i c =
             , css [ Css.width <| pct 100 ]
             ]
             []
-        , h2 [] [ text c.model ]
+        , h4 [] [ text c.model ]
         , p [] [ text c.make ]
         , p
             [ css
@@ -158,6 +158,7 @@ productCard t i c =
                 , color t.colors.textInverted
                 , display block
                 , padding <| px t.spacing.space_m
+                , margin <| px 0
                 , textAlign center
                 , borderRadius <| px 5
                 , textDecoration none

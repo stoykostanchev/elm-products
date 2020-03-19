@@ -83,12 +83,13 @@ defaultTheme =
         , space_xxxl = 1188
         }
     , typography =
-        { h1 = rem 1.8
-        , h2 = rem 1.6
-        , h3 = rem 1.4
-        , h4 = rem 1.2
-        , h5 = rem 1.1
-        , p = rem 1
+        -- https://type-scale.com/, Major Third 1.250 with 10px (62.5%) as a base unit
+        { h1 = rem 4.767
+        , h2 = rem 3.815
+        , h3 = rem 3.052
+        , h4 = rem 2.44
+        , h5 = rem 1.953
+        , p = rem 1.563
         , helper = rem 0.8
         , copyright = rem 0.7
         , fontFamilies = [ "proxima-nova-1", "Roboto" ]
@@ -105,6 +106,14 @@ init =
 
 
 ---- PROGRAM ----
+--https://medium.com/eightshapes-llc/space-in-design-systems-188bcbae0d62
+
+
+stack : Float -> Style
+stack f =
+    Css.batch
+        [ margin3 (px 0) (px 0) (px f)
+        ]
 
 
 themeStyles : Model -> Html msg
@@ -114,6 +123,7 @@ themeStyles model =
             [ backgroundColor model.colors.neutral_100
             , padding <| px 0
             , margin <| px 0
+            , fontSize <| pct 62.5
             , fontFamilies model.typography.fontFamilies
             ]
         , selector "body"
@@ -121,9 +131,18 @@ themeStyles model =
             , backgroundColor model.colors.neutral_200
             , margin2 (px 0) auto
             , Css.maxWidth <| px model.spacing.space_xxxl
+            , Css.minHeight <| vh 100
             ]
         , selector "*"
             [ boxSizing borderBox ]
+        , selector "h1" [ fontSize <| model.typography.h1, stack model.spacing.space_xl ]
+        , selector "h2" [ fontSize <| model.typography.h2, stack model.spacing.space_l ]
+        , selector "h3" [ fontSize <| model.typography.h3, stack model.spacing.space_m ]
+        , selector "h4" [ fontSize <| model.typography.h4 ]
+        , selector "h5" [ fontSize <| model.typography.h5 ]
+        , selector "h4, h5" [ stack model.spacing.space_m ]
+        , selector "p, a, button" [ fontSize <| model.typography.p, stack model.spacing.space_s ]
+        , selector "h1, h2, h3, h4, h5, p" [ padding <| px 0 ]
         ]
 
 
