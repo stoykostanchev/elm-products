@@ -170,6 +170,7 @@ view model =
             [ css
                 [ paddingLeft <| px 0
                 , margin <| px 0
+                , paddingBottom <| px model.theme.spacing.space_m
                 , Theme.overS
                     [ displayFlex
                     , flexWrap Css.wrap
