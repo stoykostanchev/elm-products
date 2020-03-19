@@ -1,6 +1,5 @@
 module ProductDetails exposing (..)
 
-import Browser
 import Button exposing (..)
 import Css exposing (..)
 import Debug exposing (toString)
@@ -8,6 +7,8 @@ import Html.Styled exposing (..)
 import Html.Styled.Attributes exposing (..)
 import Http
 import ProductList exposing (Product, decodeProductFullDetails, getProduct)
+import Svg.Styled as Svg exposing (svg)
+import Svg.Styled.Attributes as SvgA
 import Theme exposing (..)
 
 
@@ -62,6 +63,45 @@ update msg model =
 
 
 ---- VIEW ----
+
+
+starDisplay : Theme.Model -> Bool -> Html Msg
+starDisplay t active =
+    let
+        c =
+            if active then
+                t.colors.textInverted
+
+            else
+                t.colors.text
+    in
+    li
+        [ css
+            [ overM [ Theme.inline t.spacing.space_s ]
+            , Css.color c
+            ]
+        ]
+        [ svg
+            [ SvgA.width "26"
+            , SvgA.height "26"
+            , SvgA.fill "currentColor"
+            ]
+            [ Svg.path [ SvgA.d "m12.49338,19.62212l-8.03562,5.90377l3.0717,-9.54995l-8.03382,-5.90376l9.93057,0.00183l2.63934,-8.21168l0.43055,-1.3337l3.06627,9.54355l9.93327,0l-8.03743,5.90376l3.07261,9.55269l-8.03744,-5.90651l0,0z" ] [] ]
+        ]
+
+
+ratingDisplay : Theme.Model -> Int -> Html Msg
+ratingDisplay t rating =
+    ul
+        [ css
+            [ displayFlex
+            , listStyle none
+            , paddingLeft <| px 0
+            ]
+        ]
+        (List.repeat rating (starDisplay t True)
+            ++ List.repeat (10 - rating) (starDisplay t False)
+        )
 
 
 colorDisplay : Theme.Model -> String -> Html Msg
@@ -148,9 +188,9 @@ view model =
                     ]
                     [ h1 [] [ text product.make ]
                     , h2 [] [ text <| product.model ++ "," ++ Maybe.withDefault "" product.recommendedEngine ]
-                    , p [] [ text product.summary ]
-                    , p []
-                        [ text <| String.fromInt product.carwowRating ]
+                    , p [ css [ stack model.theme.spacing.space_m ] ]
+                        [ text product.summary ]
+                    , ratingDisplay t product.carwowRating
                     , colorsView model.theme product.availableColors
                     , a
                         [ href <| "mailto:company@company.com?subject=Offers for " ++ product.make ++ " " ++ product.model
