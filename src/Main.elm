@@ -20,6 +20,7 @@ type alias Model =
     { route : Route
     , page : Page
     , navKey : Nav.Key
+    , theme : Theme.Model
     }
 
 
@@ -97,13 +98,10 @@ view : Model -> Document Msg
 view model =
     { title = "Carwow"
     , body =
-        let
-            ( theme, _ ) =
-                Theme.init
-        in
         List.map toUnstyled
-            [ Theme.themeStyles theme
-            , Header.view { editorExpanded = False, theme = theme }
+            [ Theme.themeStyles model.theme
+            , Header.view { editorExpanded = False, theme = model.theme }
+                |> map ThemeChanged
             , main_ [] [ currentView model ]
             ]
     }
@@ -148,10 +146,14 @@ main =
 init : () -> Url -> Nav.Key -> ( Model, Cmd Msg )
 init _ url navKey =
     let
+        ( themeModel, _ ) =
+            Theme.init
+
         model =
             { route = Route.parseUrl url
             , page = NotFoundPage
             , navKey = navKey
+            , theme = themeModel
             }
     in
     initCurrentPage ( model, Cmd.none )
@@ -168,14 +170,14 @@ initCurrentPage ( model, existingCmds ) =
                 Route.ProductDetails productId ->
                     let
                         ( pageModel, _ ) =
-                            ProductDetails.init
+                            ProductDetails.init model.theme
                     in
                     ( ProductDetailsPage pageModel, Cmd.map ProductDetailsMsg (ProductDetails.loadActiveProduct productId) )
 
                 Route.Products ->
                     let
                         ( pageModel, pageCmds ) =
-                            ProductList.init
+                            ProductList.init model.theme
                     in
                     ( ProductListPage pageModel, Cmd.map ProductListMsg pageCmds )
     in

@@ -56,12 +56,8 @@ decodeProducts =
     Json.Decode.list decodeProductFullDetails
 
 
-init : ( Model, Cmd Msg )
-init =
-    let
-        ( theme, _ ) =
-            Theme.init
-    in
+init : Theme.Model -> ( Model, Cmd Msg )
+init theme =
     ( { products = []
       , err = Nothing
       , theme = theme

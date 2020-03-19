@@ -22,12 +22,8 @@ type alias Model =
     }
 
 
-init : ( Model, Cmd Msg )
-init =
-    let
-        ( theme, _ ) =
-            Theme.init
-    in
+init : Theme.Model -> ( Model, Cmd Msg )
+init theme =
     ( { activeProduct = Nothing
       , theme = theme
       , err = Nothing
