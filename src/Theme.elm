@@ -19,6 +19,7 @@ type alias Typography =
     , p : Rem
     , helper : Rem
     , copyright : Rem
+    , fontFamilies : List String
     }
 
 
@@ -45,6 +46,7 @@ type alias Spacing =
     , space_m : Float
     , space_l : Float
     , space_xl : Float
+    , space_xxxl : Float
     }
 
 
@@ -63,9 +65,9 @@ defaultTheme =
         , primary_300 = rgb 120 120 120
         , primary_400 = rgb 120 120 120
         , primary_500 = rgb 120 120 120
-        , neutral_100 = rgb 120 120 120
-        , neutral_200 = rgb 120 120 120
         , neutral_300 = rgb 120 120 120
+        , neutral_200 = rgb 80 80 80
+        , neutral_100 = rgb 40 40 40
         , neutral_400 = rgb 120 120 120
         , neutral_500 = rgb 120 120 120
         , text = rgb 0 0 0
@@ -78,6 +80,7 @@ defaultTheme =
         , space_m = 16
         , space_l = 32
         , space_xl = 64
+        , space_xxxl = 1188
         }
     , typography =
         { h1 = rem 1.8
@@ -88,6 +91,7 @@ defaultTheme =
         , p = rem 1
         , helper = rem 0.8
         , copyright = rem 0.7
+        , fontFamilies = [ "proxima-nova-1", "Roboto" ]
         }
     }
 
@@ -106,9 +110,20 @@ init =
 themeStyles : Model -> Html msg
 themeStyles model =
     global
-        [ selector "body"
-            [ Css.color model.colors.text
+        [ selector "html"
+            [ backgroundColor model.colors.neutral_100
+            , padding <| px 0
+            , margin <| px 0
+            , fontFamilies model.typography.fontFamilies
             ]
+        , selector "body"
+            [ Css.color model.colors.textInverted
+            , backgroundColor model.colors.neutral_200
+            , margin2 (px 0) auto
+            , Css.maxWidth <| px model.spacing.space_xxxl
+            ]
+        , selector "*"
+            [ boxSizing borderBox ]
         ]
 
 

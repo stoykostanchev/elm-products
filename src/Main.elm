@@ -8,6 +8,7 @@ import Html.Styled exposing (..)
 import ProductDetails
 import ProductList
 import Route exposing (Route)
+import Theme
 import Url exposing (Url)
 
 
@@ -92,8 +93,13 @@ view : Model -> Document Msg
 view model =
     { title = "Carwow"
     , body =
+        let
+            ( theme, _ ) =
+                Theme.init
+        in
         List.map toUnstyled
-            [ Header.view
+            [ Theme.themeStyles theme
+            , Header.view
                 (case model.page of
                     ProductListPage _ ->
                         { backBtnShown = False, editorExpanded = False }

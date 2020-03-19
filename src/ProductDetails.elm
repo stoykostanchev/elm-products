@@ -65,7 +65,14 @@ update msg model =
 
 colorDisplay : String -> Html Msg
 colorDisplay c =
-    li [ css [ backgroundColor <| hex c ] ] []
+    li
+        [ css
+            [ backgroundColor <| hex c
+            , Css.width <| px 30
+            , Css.height <| px 30
+            ]
+        ]
+        []
 
 
 colorsView : Maybe (List String) -> Html Msg
@@ -74,7 +81,14 @@ colorsView lst =
         [ h5 [] [ text "Available colors" ]
         , case lst of
             Just clrs ->
-                ul [] (List.map colorDisplay clrs)
+                ul
+                    [ css
+                        [ listStyle none
+                        , displayFlex
+                        , padding <| px 0
+                        ]
+                    ]
+                    (List.map colorDisplay clrs)
 
             Nothing ->
                 text ""

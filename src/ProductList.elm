@@ -121,6 +121,8 @@ productCard t i c =
             , marginTop <| px t.spacing.space_m
             , marginRight <| px t.spacing.space_m
             , marginBottom <| px 0
+            , displayFlex
+            , flexDirection column
             , Theme.overL
                 [ Css.width (calc (pct 25) minus (px ((5 / 4) * t.spacing.space_m)))
                 , marginLeftIfDevisible i 4 t.spacing.space_m
@@ -142,12 +144,17 @@ productCard t i c =
             []
         , h2 [] [ text c.model ]
         , p [] [ text c.make ]
-        , p [] [ text c.summary ]
+        , p
+            [ css
+                [ flex <| num 1
+                ]
+            ]
+            [ text c.summary ]
         , p [] [ text <| String.fromInt c.carwowRating ]
         , a
             [ href ("/product/" ++ String.fromInt c.id)
             , css
-                [ backgroundColor t.colors.primary_200
+                [ backgroundColor t.colors.neutral_300
                 , color t.colors.textInverted
                 , display block
                 , padding <| px t.spacing.space_m
@@ -163,8 +170,7 @@ productCard t i c =
 view : Model -> Html Msg
 view model =
     section []
-        [ Theme.themeStyles model.theme
-        , ul
+        [ ul
             [ css
                 [ paddingLeft <| px 0
                 , margin <| px 0
