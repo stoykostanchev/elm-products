@@ -68,8 +68,8 @@ defaultTheme =
         , neutral_300 = rgb 120 120 120
         , neutral_200 = rgb 80 80 80
         , neutral_100 = rgb 40 40 40
-        , neutral_400 = rgb 120 120 120
-        , neutral_500 = rgb 120 120 120
+        , neutral_400 = rgb 160 160 160
+        , neutral_500 = rgb 200 200 200
         , text = rgb 0 0 0
         , textInverted = rgb 255 255 255
         }
