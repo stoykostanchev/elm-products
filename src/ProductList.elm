@@ -1,6 +1,7 @@
 module ProductList exposing (..)
 
 import Browser
+import Button exposing (..)
 import Css exposing (..)
 import Css.Transitions exposing (backgroundColor, color, transition)
 import Debug exposing (toString)
@@ -155,25 +156,7 @@ productCard t i c =
         , a
             [ href ("/product/" ++ String.fromInt c.id)
             , css
-                [ Css.backgroundColor t.colors.neutral_400
-                , border3 (px 1) solid t.colors.neutral_100
-                , letterSpacing (px 1)
-                , transition
-                    [ Css.Transitions.backgroundColor 200
-                    , Css.Transitions.color 200
-                    ]
-                , hover
-                    [ Css.backgroundColor t.colors.neutral_300
-                    , borderColor t.colors.neutral_400
-                    , Css.color t.colors.textInverted
-                    ]
-                , Css.color t.colors.text
-                , display block
-                , padding <| px t.spacing.space_m
-                , margin <| px 0
-                , textAlign center
-                , borderRadius <| px 5
-                , textDecoration none
+                [ primaryBtnStyle t
                 ]
             ]
             [ text "View details" ]
