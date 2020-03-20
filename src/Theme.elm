@@ -30,7 +30,7 @@ type alias Colors =
     , buttonPrimaryBrdr : Color
     , cardActiveProductBg : Color
     , largeViewSideBg : Color
-    , neutral_200 : Color
+    , bodyBg : Color
     , neutral_300 : Color
     , neutral_400 : Color
     , text : Color
@@ -65,7 +65,7 @@ defaultTheme =
         , buttonPrimaryBrdr = rgb 40 40 40
         , cardActiveProductBg = rgb 40 40 40
         , largeViewSideBg = rgb 40 40 40
-        , neutral_200 = rgb 80 80 80
+        , bodyBg = rgb 80 80 80
         , neutral_300 = rgb 160 160 160
         , neutral_400 = rgb 160 160 160
         , text = rgb 0 0 0
@@ -182,7 +182,7 @@ themeStyles model =
             ]
         , selector "body"
             [ Css.color model.colors.textInverted
-            , backgroundColor model.colors.neutral_200
+            , backgroundColor model.colors.bodyBg
             , margin2 (px 0) auto
             , Css.maxWidth <| px model.spacing.space_xxxl
             , Css.minHeight <| vh 100
