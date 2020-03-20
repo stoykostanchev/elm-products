@@ -24,17 +24,17 @@ type alias Typography =
 
 
 type alias Colors =
-    { headerBg : Color
-    , cardBrdr : Color
-    , headerBtmBrdr : Color
-    , buttonPrimaryBrdr : Color
-    , cardActiveProductBg : Color
-    , largeViewSideBg : Color
-    , bodyBg : Color
-    , buttonPrimaryHoverBg : Color
+    { bodyBg : Color
     , buttonPrimaryBg : Color
-    , buttonPrimaryHoverBrdr : Color
+    , buttonPrimaryBrdr : Color
     , buttonPrimaryDisabledBrdr : Color
+    , buttonPrimaryHoverBg : Color
+    , buttonPrimaryHoverBrdr : Color
+    , cardActiveProductBg : Color
+    , cardBrdr : Color
+    , headerBg : Color
+    , headerBtmBrdr : Color
+    , largeViewSideBg : Color
     , text : Color
     , textInverted : Color
     }
@@ -61,17 +61,17 @@ type alias Model =
 defaultTheme : Model
 defaultTheme =
     { colors =
-        { headerBg = rgb 120 120 120
+        { bodyBg = rgb 80 80 80
+        , buttonPrimaryBg = rgb 160 160 160
+        , buttonPrimaryBrdr = rgb 40 40 40
+        , buttonPrimaryDisabledBrdr = rgb 160 160 160
+        , buttonPrimaryHoverBg = rgb 160 160 160
+        , buttonPrimaryHoverBrdr = rgb 160 160 160
+        , cardActiveProductBg = rgb 40 40 40
         , cardBrdr = rgb 120 120 120
         , headerBtmBrdr = rgb 120 120 120
-        , buttonPrimaryBrdr = rgb 40 40 40
-        , cardActiveProductBg = rgb 40 40 40
+        , headerBg = rgb 120 120 120
         , largeViewSideBg = rgb 40 40 40
-        , bodyBg = rgb 80 80 80
-        , buttonPrimaryHoverBg = rgb 160 160 160
-        , buttonPrimaryBg = rgb 160 160 160
-        , buttonPrimaryHoverBrdr = rgb 160 160 160
-        , buttonPrimaryDisabledBrdr = rgb 160 160 160
         , text = rgb 0 0 0
         , textInverted = rgb 255 255 255
         }
