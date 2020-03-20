@@ -11,10 +11,18 @@ type alias Model =
 
 primaryBtnStyle : Model -> Style
 primaryBtnStyle t =
+    let
+        defaults =
+            Css.batch
+                [ Css.backgroundColor t.colors.neutral_400
+                , border3 (px 1) solid t.colors.neutral_100
+                , Css.color t.colors.text
+                ]
+    in
     Css.batch
-        [ Css.backgroundColor t.colors.neutral_400
-        , border3 (px 1) solid t.colors.neutral_100
+        [ defaults
         , letterSpacing (px 1)
+        , cursor pointer
         , transition
             [ Css.Transitions.backgroundColor 200
             , Css.Transitions.color 200
@@ -24,11 +32,14 @@ primaryBtnStyle t =
             , borderColor t.colors.neutral_400
             , Css.color t.colors.textInverted
             ]
-        , Css.color t.colors.text
         , display block
         , textAlign center
         , borderRadius <| px 5
         , textDecoration none
         , margin <| px 0
         , padding <| px t.spacing.space_m
+        , disabled
+            [ defaults
+            , border3 (px 1) solid t.colors.neutral_400
+            ]
         ]
