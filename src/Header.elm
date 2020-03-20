@@ -2,7 +2,7 @@ module Header exposing (..)
 
 import Button exposing (primaryBtnStyle)
 import Css exposing (..)
-import Html.Styled exposing (Html, a, button, form, input, nav, text)
+import Html.Styled exposing (Html, a, button, form, input, nav, p, text)
 import Html.Styled.Attributes as HtmlA exposing (css, disabled, href, type_)
 import Html.Styled.Events exposing (custom)
 import Json.Decode exposing (succeed)
@@ -42,7 +42,7 @@ homeLink m =
             , position relative
             , top <| rem -0.5
             , paddingLeft <| px m.theme.spacing.space_m
-            , color m.theme.colors.textInverted
+            , color <| rgb 255 255 255
             , flex <| num 1
             ]
         ]
@@ -59,7 +59,9 @@ themeBtn theme txt active color msg =
     button
         [ onClickSetTheme msg
         , css
-            [ primaryBtnStyle theme
+            [ cursor pointer
+            , border3 (px 1) solid theme.colors.buttonPrimaryBrdr
+            , borderRadius <| px 5
             , Theme.inline theme.spacing.space_m
             , Theme.inset theme.spacing.space_s
             , backgroundColor color
@@ -73,10 +75,18 @@ themeBtn theme txt active color msg =
 
 editor : Model -> Html Msg
 editor m =
+    let
+        btn =
+            if m.theme == darkTheme then
+                themeBtn m.theme "Light" (m.theme == colorTheme) colorTheme.colors.headerBg <| ThemeSet colorTheme
+
+            else
+                themeBtn m.theme "Dark" (m.theme == darkTheme) darkTheme.colors.headerBg <| ThemeSet darkTheme
+    in
     form
-        [ css [ displayFlex ] ]
-        [ themeBtn m.theme "Dark" (m.theme == darkTheme) (rgb 200 200 200) <| ThemeSet darkTheme
-        , themeBtn m.theme "Color" (m.theme == colorTheme) (rgb 0 200 0) <| ThemeSet colorTheme
+        [ css [ displayFlex, alignItems center ] ]
+        [ p [ css [ Theme.inline m.theme.spacing.space_m ] ] [ text "Change theme: " ]
+        , btn
         ]
 
 
