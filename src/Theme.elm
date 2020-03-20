@@ -59,8 +59,8 @@ type alias Model =
     }
 
 
-defaultTheme : Model
-defaultTheme =
+colorTheme : Model
+colorTheme =
     { colors =
         { bodyBg = hex "#f6f7fa"
         , bodyLargeViewSideBg = hex "#f6f7fa"
@@ -101,20 +101,8 @@ defaultTheme =
     }
 
 
-lightTheme : Model
-lightTheme =
-    let
-        oldC =
-            defaultTheme.colors
-
-        newColors =
-            { oldC | headerBg = rgb 255 0 0 }
-    in
-    { defaultTheme | colors = newColors }
-
-
-colorTheme : Model
-colorTheme =
+darkTheme : Model
+darkTheme =
     let
         newColors =
             { bodyBg = rgb 80 80 80
@@ -133,12 +121,12 @@ colorTheme =
             , textInverted = rgb 255 255 255
             }
     in
-    { defaultTheme | colors = newColors }
+    { colorTheme | colors = newColors }
 
 
 init : ( Model, Cmd msg )
 init =
-    ( colorTheme
+    ( darkTheme
     , Cmd.none
     )
 

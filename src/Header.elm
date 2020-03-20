@@ -6,7 +6,7 @@ import Html.Styled exposing (Html, a, button, form, input, nav, text)
 import Html.Styled.Attributes as HtmlA exposing (css, disabled, href, type_)
 import Html.Styled.Events exposing (custom)
 import Json.Decode exposing (succeed)
-import Theme exposing (Model, colorTheme, defaultTheme, inline, inset, lightTheme)
+import Theme exposing (Model, colorTheme, darkTheme, inline, inset)
 
 
 
@@ -75,8 +75,7 @@ editor : Model -> Html Msg
 editor m =
     form
         [ css [ displayFlex ] ]
-        [ themeBtn m.theme "Light" (m.theme == lightTheme) (rgb 0 0 0) <| ThemeSet lightTheme
-        , themeBtn m.theme "Dark" (m.theme == defaultTheme) (rgb 200 200 200) <| ThemeSet defaultTheme
+        [ themeBtn m.theme "Dark" (m.theme == darkTheme) (rgb 200 200 200) <| ThemeSet darkTheme
         , themeBtn m.theme "Color" (m.theme == colorTheme) (rgb 0 200 0) <| ThemeSet colorTheme
         ]
 
