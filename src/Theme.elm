@@ -155,8 +155,8 @@ themeStyles model =
         , selector "h4" [ fontSize <| model.typography.h4 ]
         , selector "h5" [ fontSize <| model.typography.h5 ]
         , selector "h4, h5, ul" [ stack model.spacing.space_m ]
-        , selector "p, a, button" [ fontSize <| model.typography.p, stack model.spacing.space_s ]
-        , selector "h1, h2, h3, h4, h5, p" [ padding <| px 0 ]
+        , selector "p, a, button, strong" [ fontSize <| model.typography.p, stack model.spacing.space_s ]
+        , selector "h1, h2, h3, h4, h5, p, strong" [ padding <| px 0 ]
         ]
 
 

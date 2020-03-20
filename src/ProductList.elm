@@ -144,15 +144,21 @@ productCard t i c =
             , css [ Css.width <| pct 100 ]
             ]
             []
-        , h4 [] [ text c.model ]
-        , p [] [ text c.make ]
+        , h4 [ css [ displayFlex ] ]
+            [ div [ css [ flex <| num 1 ] ] [ text c.model ]
+            , div [] [ text <| "£" ++ String.fromInt c.rrp ++ " rrp" ]
+            ]
+        , strong [] [ text c.make ]
         , p
             [ css
                 [ flex <| num 1
                 ]
             ]
             [ text c.summary ]
-        , p [] [ text <| String.fromInt c.carwowRating ]
+        , p [ css [ displayFlex ] ]
+            [ div [ css [ flex <| num 1 ] ] [ text "Our rating:" ]
+            , div [] [ strong [] [ text <| String.fromInt c.carwowRating ], text "/10" ]
+            ]
         , a
             [ href ("/product/" ++ String.fromInt c.id)
             , css
