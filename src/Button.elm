@@ -14,7 +14,7 @@ primaryBtnStyle t =
     let
         defaults =
             Css.batch
-                [ Css.backgroundColor t.colors.neutral_400
+                [ Css.backgroundColor t.colors.buttonPrimaryBg
                 , border3 (px 1) solid t.colors.buttonPrimaryBrdr
                 , Css.color t.colors.text
                 ]
@@ -29,7 +29,7 @@ primaryBtnStyle t =
             ]
         , hover
             [ Css.backgroundColor t.colors.buttonPrimaryHoverBg
-            , borderColor t.colors.neutral_400
+            , borderColor t.colors.buttonPrimaryHoverBrdr
             , Css.color t.colors.textInverted
             ]
         , display block
@@ -40,6 +40,6 @@ primaryBtnStyle t =
         , padding <| px t.spacing.space_m
         , disabled
             [ defaults
-            , border3 (px 1) solid t.colors.neutral_400
+            , border3 (px 1) solid t.colors.buttonPrimaryDisabledBrdr
             ]
         ]

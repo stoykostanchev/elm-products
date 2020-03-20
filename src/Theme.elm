@@ -32,7 +32,9 @@ type alias Colors =
     , largeViewSideBg : Color
     , bodyBg : Color
     , buttonPrimaryHoverBg : Color
-    , neutral_400 : Color
+    , buttonPrimaryBg : Color
+    , buttonPrimaryHoverBrdr : Color
+    , buttonPrimaryDisabledBrdr : Color
     , text : Color
     , textInverted : Color
     }
@@ -67,7 +69,9 @@ defaultTheme =
         , largeViewSideBg = rgb 40 40 40
         , bodyBg = rgb 80 80 80
         , buttonPrimaryHoverBg = rgb 160 160 160
-        , neutral_400 = rgb 160 160 160
+        , buttonPrimaryBg = rgb 160 160 160
+        , buttonPrimaryHoverBrdr = rgb 160 160 160
+        , buttonPrimaryDisabledBrdr = rgb 160 160 160
         , text = rgb 0 0 0
         , textInverted = rgb 255 255 255
         }
