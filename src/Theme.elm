@@ -36,6 +36,8 @@ type alias Colors =
     , cardBrdr : Color
     , headerBg : Color
     , headerBtmBrdr : Color
+    , starActive : Color
+    , starInactive : Color
     , text : Color
     , textInverted : Color
     }
@@ -74,6 +76,8 @@ colorTheme =
         , cardBrdr = hex "#dedede"
         , headerBtmBrdr = hex "#00a4ff"
         , headerBg = hex "#00a4ff"
+        , starActive = hex "#ffa500"
+        , starInactive = rgb 150 150 150
         , text = rgb 255 255 255
         , textInverted = hex "#3d414a"
         }
@@ -94,8 +98,8 @@ colorTheme =
         , h4 = rem 2.44
         , h5 = rem 1.953
         , p = rem 1.563
-        , helper = rem 0.8
-        , copyright = rem 0.7
+        , helper = rem 1.25
+        , copyright = rem 1
         , fontFamilies = [ "proxima-nova-1", "Roboto" ]
         }
     }
@@ -117,6 +121,8 @@ darkTheme =
             , cardBrdr = rgb 120 120 120
             , headerBtmBrdr = hex "#787878"
             , headerBg = hex "#787878"
+            , starActive = hex "#daa520"
+            , starInactive = rgb 150 150 150
             , text = rgb 225 225 225
             , textInverted = rgb 255 255 255
             }

@@ -69,10 +69,10 @@ starDisplay t active =
     let
         c =
             if active then
-                t.colors.textInverted
+                t.colors.starActive
 
             else
-                t.colors.text
+                t.colors.starInactive
     in
     li
         [ css
