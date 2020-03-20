@@ -2,11 +2,11 @@ module Header exposing (..)
 
 import Button exposing (primaryBtnStyle)
 import Css exposing (..)
-import Html.Styled exposing (Html, a, button, form, input, nav, text)
+import Html.Styled exposing (Html, a, button, form, input, nav, p, text)
 import Html.Styled.Attributes as HtmlA exposing (css, disabled, href, type_)
 import Html.Styled.Events exposing (custom)
 import Json.Decode exposing (succeed)
-import Theme exposing (Model, colorTheme, defaultTheme, inset, lightTheme)
+import Theme exposing (Model, colorTheme, darkTheme, inline, inset)
 
 
 
@@ -41,7 +41,8 @@ homeLink m =
             , fontFamilies [ "cursive" ]
             , position relative
             , top <| rem -0.5
-            , color m.theme.colors.textInverted
+            , paddingLeft <| px m.theme.spacing.space_m
+            , color <| rgb 255 255 255
             , flex <| num 1
             ]
         ]
@@ -53,11 +54,20 @@ onClickSetTheme message =
     custom "click" (succeed { message = message, stopPropagation = True, preventDefault = True })
 
 
-themeBtn : Theme.Model -> String -> Bool -> msg -> Html msg
-themeBtn theme txt active msg =
+themeBtn : Theme.Model -> String -> Bool -> Color -> msg -> Html msg
+themeBtn theme txt active color msg =
     button
         [ onClickSetTheme msg
-        , css [ primaryBtnStyle theme ]
+        , css
+            [ cursor pointer
+            , border3 (px 1) solid theme.colors.buttonPrimaryBrdr
+            , borderRadius <| px 5
+            , Theme.inline theme.spacing.space_m
+            , Theme.inset theme.spacing.space_s
+            , backgroundColor color
+            , Css.color <| rgb 255 255 255
+            , fontWeight bold
+            ]
         , HtmlA.disabled active
         ]
         [ text txt ]
@@ -65,11 +75,18 @@ themeBtn theme txt active msg =
 
 editor : Model -> Html Msg
 editor m =
+    let
+        btn =
+            if m.theme == darkTheme then
+                themeBtn m.theme "Light" (m.theme == colorTheme) colorTheme.colors.headerBg <| ThemeSet colorTheme
+
+            else
+                themeBtn m.theme "Dark" (m.theme == darkTheme) darkTheme.colors.headerBg <| ThemeSet darkTheme
+    in
     form
-        [ css [ displayFlex ] ]
-        [ themeBtn m.theme "Light" (m.theme == lightTheme) <| ThemeSet lightTheme
-        , themeBtn m.theme "Dark" (m.theme == defaultTheme) <| ThemeSet defaultTheme
-        , themeBtn m.theme "Color" (m.theme == colorTheme) <| ThemeSet colorTheme
+        [ css [ displayFlex, alignItems center ] ]
+        [ p [ css [ Theme.inline m.theme.spacing.space_m ] ] [ text "Change theme: " ]
+        , btn
         ]
 
 
@@ -78,8 +95,8 @@ view m =
     nav
         [ css
             [ Theme.inset m.theme.spacing.space_s
-            , backgroundColor m.theme.colors.primary_100
-            , borderBottom3 (px 1) solid m.theme.colors.primary_200
+            , backgroundColor m.theme.colors.headerBg
+            , borderBottom3 (px 1) solid m.theme.colors.headerBtmBrdr
             , displayFlex
             , alignItems center
             , justifyContent center

@@ -24,12 +24,20 @@ type alias Typography =
 
 
 type alias Colors =
-    { primary_100 : Color
-    , primary_200 : Color
-    , neutral_100 : Color
-    , neutral_200 : Color
-    , neutral_300 : Color
-    , neutral_400 : Color
+    { bodyBg : Color
+    , bodyLargeViewSideBg : Color
+    , buttonPrimaryBg : Color
+    , buttonPrimaryBrdr : Color
+    , buttonPrimaryDisabledBrdr : Color
+    , buttonPrimaryHoverBg : Color
+    , buttonPrimaryHoverBrdr : Color
+    , cardActiveProductBg : Color
+    , cardBg : Color
+    , cardBrdr : Color
+    , headerBg : Color
+    , headerBtmBrdr : Color
+    , starActive : Color
+    , starInactive : Color
     , text : Color
     , textInverted : Color
     }
@@ -53,17 +61,25 @@ type alias Model =
     }
 
 
-defaultTheme : Model
-defaultTheme =
+colorTheme : Model
+colorTheme =
     { colors =
-        { primary_100 = rgb 120 120 120
-        , primary_200 = rgb 120 120 120
-        , neutral_100 = rgb 40 40 40
-        , neutral_200 = rgb 80 80 80
-        , neutral_300 = rgb 160 160 160
-        , neutral_400 = rgb 160 160 160
-        , text = rgb 0 0 0
-        , textInverted = rgb 255 255 255
+        { bodyBg = hex "#f6f7fa"
+        , bodyLargeViewSideBg = hex "#f6f7fa"
+        , buttonPrimaryBg = hex "#054a23" --hex "#2ecc71"
+        , buttonPrimaryBrdr = rgba 0 0 0 0
+        , buttonPrimaryDisabledBrdr = rgba 0 0 0 0
+        , buttonPrimaryHoverBg = hex "#54d98c"
+        , buttonPrimaryHoverBrdr = rgba 0 0 0 0
+        , cardActiveProductBg = rgb 255 255 255
+        , cardBg = rgb 255 255 255
+        , cardBrdr = hex "#dedede"
+        , headerBtmBrdr = hex "#00a4ff"
+        , headerBg = hex "#00a4ff"
+        , starActive = hex "#ffa500"
+        , starInactive = rgb 150 150 150
+        , text = rgb 255 255 255
+        , textInverted = hex "#3d414a"
         }
     , spacing =
         { space_default = 16
@@ -82,50 +98,53 @@ defaultTheme =
         , h4 = rem 2.44
         , h5 = rem 1.953
         , p = rem 1.563
-        , helper = rem 0.8
-        , copyright = rem 0.7
+        , helper = rem 1.25
+        , copyright = rem 1
         , fontFamilies = [ "proxima-nova-1", "Roboto" ]
         }
     }
 
 
-lightTheme : Model
-lightTheme =
+darkTheme : Model
+darkTheme =
     let
         newColors =
-            { primary_100 = rgb 80 80 80
-            , primary_200 = rgb 80 80 80
-            , neutral_100 = rgb 180 180 180
-            , neutral_200 = rgb 140 140 140
-            , neutral_300 = rgb 100 100 100
-            , neutral_400 = rgb 60 60 60
-            , text = rgb 20 20 20
-            , textInverted = rgb 20 20 20
+            { bodyBg = rgb 80 80 80
+            , bodyLargeViewSideBg = rgb 40 40 40
+            , buttonPrimaryBg = rgb 140 130 80
+            , buttonPrimaryBrdr = rgb 130 130 130
+            , buttonPrimaryDisabledBrdr = rgb 100 100 100
+            , buttonPrimaryHoverBg = rgb 100 100 70
+            , buttonPrimaryHoverBrdr = rgb 130 130 130
+            , cardActiveProductBg = rgb 100 100 100
+            , cardBg = rgb 80 80 80
+            , cardBrdr = rgb 120 120 120
+            , headerBtmBrdr = hex "#787878"
+            , headerBg = hex "#787878"
+            , starActive = hex "#daa520"
+            , starInactive = rgb 150 150 150
+            , text = rgb 225 225 225
+            , textInverted = rgb 255 255 255
+            }
+
+        newTypography =
+            { h1 = rem 7.478
+            , h2 = rem 5.61
+            , h3 = rem 4.209
+            , h4 = rem 3.157
+            , h5 = rem 2.369
+            , p = rem 1.777
+            , helper = rem 1.333
+            , copyright = rem 0.75
+            , fontFamilies = [ "monospace" ]
             }
     in
-    { defaultTheme | colors = newColors }
-
-
-colorTheme : Model
-colorTheme =
-    let
-        newColors =
-            { primary_100 = rgb 80 80 80
-            , primary_200 = rgb 80 80 80
-            , neutral_100 = rgb 180 180 180
-            , neutral_200 = rgb 140 140 140
-            , neutral_300 = rgb 100 100 100
-            , neutral_400 = rgb 200 200 200
-            , text = rgb 20 20 20
-            , textInverted = rgb 20 20 20
-            }
-    in
-    { defaultTheme | colors = newColors }
+    { colorTheme | colors = newColors, typography = newTypography }
 
 
 init : ( Model, Cmd msg )
 init =
-    ( defaultTheme
+    ( darkTheme
     , Cmd.none
     )
 
@@ -160,7 +179,7 @@ themeStyles : Model -> Html msg
 themeStyles model =
     global
         [ selector "html"
-            [ backgroundColor model.colors.neutral_100
+            [ backgroundColor model.colors.bodyLargeViewSideBg
             , padding <| px 0
             , margin <| px 0
             , fontSize <| pct 62.5
@@ -168,7 +187,7 @@ themeStyles model =
             ]
         , selector "body"
             [ Css.color model.colors.textInverted
-            , backgroundColor model.colors.neutral_200
+            , backgroundColor model.colors.bodyBg
             , margin2 (px 0) auto
             , Css.maxWidth <| px model.spacing.space_xxxl
             , Css.minHeight <| vh 100

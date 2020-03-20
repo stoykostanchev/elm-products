@@ -69,10 +69,10 @@ starDisplay t active =
     let
         c =
             if active then
-                t.colors.textInverted
+                t.colors.starActive
 
             else
-                t.colors.text
+                t.colors.starInactive
     in
     li
         [ css
@@ -111,7 +111,7 @@ colorDisplay t c =
             , Css.width <| px 30
             , Css.height <| px 30
             , borderRadius <| px 5
-            , border3 (px 1) solid t.colors.neutral_100
+            , border3 (px 1) solid t.colors.cardBrdr
             , Theme.inline t.spacing.space_m
             ]
         ]
@@ -150,7 +150,7 @@ view model =
             section
                 [ css
                     [ padding <| px t.spacing.space_l
-                    , backgroundColor model.theme.colors.neutral_100
+                    , backgroundColor model.theme.colors.cardActiveProductBg
                     , overM
                         [ displayFlex
                         , flexDirection row
@@ -205,7 +205,9 @@ view model =
                             [ text product.make ]
                         , div
                             []
-                            [ text <| "£" ++ String.fromInt product.rrp ++ " (rrp)" ]
+                            [ text <| "£" ++ String.fromInt product.rrp
+                            , p [ css [ float right, fontSize model.theme.typography.helper ] ] [ text " (rrp)" ]
+                            ]
                         ]
                     , h2
                         []

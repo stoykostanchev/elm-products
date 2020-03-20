@@ -114,7 +114,8 @@ productCard t i c =
         , css
             [ listStyle none
             , borderRadius <| px 5
-            , border3 (px 1) solid t.colors.primary_100
+            , border3 (px 1) solid t.colors.cardBrdr
+            , backgroundColor t.colors.cardBg
             , margin <| px t.spacing.space_m
             , padding <| px t.spacing.space_m
             , marginTop <| px t.spacing.space_m
@@ -143,7 +144,10 @@ productCard t i c =
             []
         , h4 [ css [ displayFlex ] ]
             [ div [ css [ flex <| num 1 ] ] [ text c.model ]
-            , div [] [ text <| "£" ++ String.fromInt c.rrp ++ " rrp" ]
+            , div []
+                [ text <| "£" ++ String.fromInt c.rrp
+                , p [ css [ float right, fontSize t.typography.helper ] ] [ text " rrp" ]
+                ]
             ]
         , strong [] [ text c.make ]
         , p
