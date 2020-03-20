@@ -186,8 +186,32 @@ view model =
                             ]
                         ]
                     ]
-                    [ h1 [] [ text product.make ]
-                    , h2 [] [ text <| product.model ++ "," ++ Maybe.withDefault "" product.recommendedEngine ]
+                    [ h1
+                        [ css
+                            [ stack model.theme.spacing.space_xl
+                            , overM
+                                [ displayFlex
+                                , stack model.theme.spacing.space_l
+                                ]
+                            ]
+                        ]
+                        [ div
+                            [ css
+                                [ overM
+                                    [ Theme.inline model.theme.spacing.space_s
+                                    , flex <| num 1
+                                    ]
+                                ]
+                            ]
+                            [ text product.make ]
+                        , div
+                            []
+                            [ text <| "£" ++ String.fromInt product.rrp ++ " (rrp)" ]
+                        ]
+                    , h2
+                        []
+                        [ text product.model ]
+                    , h3 [] [ text <| Maybe.withDefault "" product.recommendedEngine ]
                     , p [ css [ stack model.theme.spacing.space_m ] ]
                         [ text product.summary ]
                     , ratingDisplay t product.carwowRating
