@@ -150,7 +150,7 @@ view model =
             section
                 [ css
                     [ padding <| px t.spacing.space_l
-                    , backgroundColor model.theme.colors.neutral_100
+                    , backgroundColor model.theme.colors.cardActiveProductBg
                     , overM
                         [ displayFlex
                         , flexDirection row

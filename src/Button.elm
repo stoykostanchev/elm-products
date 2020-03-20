@@ -15,7 +15,7 @@ primaryBtnStyle t =
         defaults =
             Css.batch
                 [ Css.backgroundColor t.colors.neutral_400
-                , border3 (px 1) solid t.colors.neutral_100
+                , border3 (px 1) solid t.colors.buttonPrimaryBrdr
                 , Css.color t.colors.text
                 ]
     in

@@ -27,7 +27,9 @@ type alias Colors =
     { headerBg : Color
     , cardBrdr : Color
     , headerBtmBrdr : Color
-    , neutral_100 : Color
+    , buttonPrimaryBrdr : Color
+    , cardActiveProductBg : Color
+    , largeViewSideBg : Color
     , neutral_200 : Color
     , neutral_300 : Color
     , neutral_400 : Color
@@ -60,7 +62,9 @@ defaultTheme =
         { headerBg = rgb 120 120 120
         , cardBrdr = rgb 120 120 120
         , headerBtmBrdr = rgb 120 120 120
-        , neutral_100 = rgb 40 40 40
+        , buttonPrimaryBrdr = rgb 40 40 40
+        , cardActiveProductBg = rgb 40 40 40
+        , largeViewSideBg = rgb 40 40 40
         , neutral_200 = rgb 80 80 80
         , neutral_300 = rgb 160 160 160
         , neutral_400 = rgb 160 160 160
@@ -170,7 +174,7 @@ themeStyles : Model -> Html msg
 themeStyles model =
     global
         [ selector "html"
-            [ backgroundColor model.colors.neutral_100
+            [ backgroundColor model.colors.largeViewSideBg
             , padding <| px 0
             , margin <| px 0
             , fontSize <| pct 62.5
