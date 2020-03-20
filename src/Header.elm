@@ -6,7 +6,7 @@ import Html.Styled exposing (Html, a, button, form, input, nav, text)
 import Html.Styled.Attributes as HtmlA exposing (css, disabled, href, type_)
 import Html.Styled.Events exposing (custom)
 import Json.Decode exposing (succeed)
-import Theme exposing (Model, colorTheme, defaultTheme, inset, lightTheme)
+import Theme exposing (Model, colorTheme, defaultTheme, inline, inset, lightTheme)
 
 
 
@@ -41,6 +41,7 @@ homeLink m =
             , fontFamilies [ "cursive" ]
             , position relative
             , top <| rem -0.5
+            , paddingLeft <| px m.theme.spacing.space_m
             , color m.theme.colors.textInverted
             , flex <| num 1
             ]
@@ -53,11 +54,18 @@ onClickSetTheme message =
     custom "click" (succeed { message = message, stopPropagation = True, preventDefault = True })
 
 
-themeBtn : Theme.Model -> String -> Bool -> msg -> Html msg
-themeBtn theme txt active msg =
+themeBtn : Theme.Model -> String -> Bool -> Color -> msg -> Html msg
+themeBtn theme txt active color msg =
     button
         [ onClickSetTheme msg
-        , css [ primaryBtnStyle theme ]
+        , css
+            [ primaryBtnStyle theme
+            , Theme.inline theme.spacing.space_m
+            , Theme.inset theme.spacing.space_s
+            , backgroundColor color
+            , Css.color <| rgb 255 255 255
+            , fontWeight bold
+            ]
         , HtmlA.disabled active
         ]
         [ text txt ]
@@ -67,9 +75,9 @@ editor : Model -> Html Msg
 editor m =
     form
         [ css [ displayFlex ] ]
-        [ themeBtn m.theme "Light" (m.theme == lightTheme) <| ThemeSet lightTheme
-        , themeBtn m.theme "Dark" (m.theme == defaultTheme) <| ThemeSet defaultTheme
-        , themeBtn m.theme "Color" (m.theme == colorTheme) <| ThemeSet colorTheme
+        [ themeBtn m.theme "Light" (m.theme == lightTheme) (rgb 0 0 0) <| ThemeSet lightTheme
+        , themeBtn m.theme "Dark" (m.theme == defaultTheme) (rgb 200 200 200) <| ThemeSet defaultTheme
+        , themeBtn m.theme "Color" (m.theme == colorTheme) (rgb 0 200 0) <| ThemeSet colorTheme
         ]
 
 
