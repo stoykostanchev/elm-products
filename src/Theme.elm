@@ -61,19 +61,19 @@ type alias Model =
 defaultTheme : Model
 defaultTheme =
     { colors =
-        { bodyBg = rgb 80 80 80
-        , bodyLargeViewSideBg = rgb 40 40 40
-        , buttonPrimaryBg = rgb 160 160 160
-        , buttonPrimaryBrdr = rgb 40 40 40
-        , buttonPrimaryDisabledBrdr = rgb 160 160 160
-        , buttonPrimaryHoverBg = rgb 160 160 160
-        , buttonPrimaryHoverBrdr = rgb 160 160 160
-        , cardActiveProductBg = rgb 40 40 40
-        , cardBrdr = rgb 120 120 120
-        , headerBtmBrdr = rgb 120 120 120
-        , headerBg = rgb 120 120 120
-        , text = rgb 0 0 0
-        , textInverted = rgb 255 255 255
+        { bodyBg = hex "#f6f7fa"
+        , bodyLargeViewSideBg = hex "#f6f7fa"
+        , buttonPrimaryBg = hex "#054a23" --hex "#2ecc71"
+        , buttonPrimaryBrdr = rgba 0 0 0 0
+        , buttonPrimaryDisabledBrdr = rgba 0 0 0 0
+        , buttonPrimaryHoverBg = hex "#54d98c"
+        , buttonPrimaryHoverBrdr = rgba 0 0 0 0
+        , cardActiveProductBg = rgb 255 255 255
+        , cardBrdr = hex "#dedede"
+        , headerBtmBrdr = hex "#00a4ff"
+        , headerBg = hex "#00a4ff"
+        , text = rgb 255 255 255
+        , textInverted = hex "#3d414a"
         }
     , spacing =
         { space_default = 16
@@ -101,44 +101,26 @@ defaultTheme =
 
 lightTheme : Model
 lightTheme =
-    defaultTheme
+    let
+        oldC =
+            defaultTheme.colors
 
-
-
--- let
---     newColors =
---         { primary_100 = rgb 80 80 80
---         , primary_200 = rgb 80 80 80
---         , neutral_100 = rgb 180 180 180
---         , neutral_200 = rgb 140 140 140
---         , neutral_300 = rgb 100 100 100
---         , neutral_400 = rgb 60 60 60
---         , text = rgb 20 20 20
---         , textInverted = rgb 20 20 20
---         }
--- in
--- { defaultTheme | colors = newColors }
+        newColors =
+            { oldC | headerBg = rgb 255 0 0 }
+    in
+    { defaultTheme | colors = newColors }
 
 
 colorTheme : Model
 colorTheme =
-    defaultTheme
+    let
+        oldC =
+            defaultTheme.colors
 
-
-
--- let
---     newColors =
---         { primary_100 = rgb 80 80 80
---         , primary_200 = rgb 80 80 80
---         , neutral_100 = rgb 180 180 180
---         , neutral_200 = rgb 140 140 140
---         , neutral_300 = rgb 100 100 100
---         , neutral_400 = rgb 200 200 200
---         , text = rgb 20 20 20
---         , textInverted = rgb 20 20 20
---         }
--- in
--- { defaultTheme | colors = newColors }
+        newColors =
+            { oldC | headerBg = rgb 0 255 0 }
+    in
+    { defaultTheme | colors = newColors }
 
 
 init : ( Model, Cmd msg )
