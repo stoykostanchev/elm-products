@@ -2,7 +2,6 @@ module ProductDetails exposing (..)
 
 import Button exposing (..)
 import Css exposing (..)
-import Debug exposing (toString)
 import Html.Styled exposing (..)
 import Html.Styled.Attributes exposing (..)
 import Http
@@ -55,8 +54,8 @@ update msg model =
                     , Cmd.none
                     )
 
-                Err e ->
-                    ( { model | activeProduct = Nothing, err = Just (toString e) }
+                Err _ ->
+                    ( { model | activeProduct = Nothing, err = Just "Error while fetching this product..." }
                     , Cmd.none
                     )
 

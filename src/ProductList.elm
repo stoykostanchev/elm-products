@@ -1,10 +1,7 @@
 module ProductList exposing (..)
 
-import Browser
 import Button exposing (..)
 import Css exposing (..)
-import Css.Transitions exposing (backgroundColor, color, transition)
-import Debug exposing (toString)
 import Html.Styled exposing (..)
 import Html.Styled.Attributes exposing (..)
 import Http
@@ -88,8 +85,8 @@ update msg model =
                     , Cmd.none
                     )
 
-                Err e ->
-                    ( { model | err = Just (toString e) }
+                Err _ ->
+                    ( { model | err = Just "Error loading products..." }
                     , Cmd.none
                     )
 
