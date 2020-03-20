@@ -32,6 +32,7 @@ type alias Colors =
     , buttonPrimaryHoverBg : Color
     , buttonPrimaryHoverBrdr : Color
     , cardActiveProductBg : Color
+    , cardBg : Color
     , cardBrdr : Color
     , headerBg : Color
     , headerBtmBrdr : Color
@@ -69,6 +70,7 @@ defaultTheme =
         , buttonPrimaryHoverBg = hex "#54d98c"
         , buttonPrimaryHoverBrdr = rgba 0 0 0 0
         , cardActiveProductBg = rgb 255 255 255
+        , cardBg = rgb 255 255 255
         , cardBrdr = hex "#dedede"
         , headerBtmBrdr = hex "#00a4ff"
         , headerBg = hex "#00a4ff"
