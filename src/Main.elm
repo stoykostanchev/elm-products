@@ -1,6 +1,7 @@
 module Main exposing (..)
 
 import Browser exposing (..)
+import Browser.Hash as Hash
 import Browser.Navigation as Nav
 import Css exposing (hex, rgb)
 import Debug exposing (log, toString)
@@ -162,7 +163,7 @@ notFoundView =
 
 main : Program () Model Msg
 main =
-    Browser.application
+    Hash.application
         { init = init
         , view = view
         , update = update

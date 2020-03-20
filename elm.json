@@ -14,6 +14,7 @@
             "elm/json": "1.1.2",
             "elm/url": "1.0.0",
             "elm-community/json-extra": "4.2.0",
+            "mthadley/elm-hash-routing": "1.0.1",
             "rtfeldman/elm-css": "16.0.1"
         },
         "indirect": {
