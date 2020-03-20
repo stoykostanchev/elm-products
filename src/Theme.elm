@@ -25,6 +25,7 @@ type alias Typography =
 
 type alias Colors =
     { bodyBg : Color
+    , bodyLargeViewSideBg : Color
     , buttonPrimaryBg : Color
     , buttonPrimaryBrdr : Color
     , buttonPrimaryDisabledBrdr : Color
@@ -34,7 +35,6 @@ type alias Colors =
     , cardBrdr : Color
     , headerBg : Color
     , headerBtmBrdr : Color
-    , largeViewSideBg : Color
     , text : Color
     , textInverted : Color
     }
@@ -62,6 +62,7 @@ defaultTheme : Model
 defaultTheme =
     { colors =
         { bodyBg = rgb 80 80 80
+        , bodyLargeViewSideBg = rgb 40 40 40
         , buttonPrimaryBg = rgb 160 160 160
         , buttonPrimaryBrdr = rgb 40 40 40
         , buttonPrimaryDisabledBrdr = rgb 160 160 160
@@ -71,7 +72,6 @@ defaultTheme =
         , cardBrdr = rgb 120 120 120
         , headerBtmBrdr = rgb 120 120 120
         , headerBg = rgb 120 120 120
-        , largeViewSideBg = rgb 40 40 40
         , text = rgb 0 0 0
         , textInverted = rgb 255 255 255
         }
@@ -178,7 +178,7 @@ themeStyles : Model -> Html msg
 themeStyles model =
     global
         [ selector "html"
-            [ backgroundColor model.colors.largeViewSideBg
+            [ backgroundColor model.colors.bodyLargeViewSideBg
             , padding <| px 0
             , margin <| px 0
             , fontSize <| pct 62.5
