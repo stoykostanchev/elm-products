@@ -34,7 +34,7 @@ type Msg
 homeLink : Model -> Html msg
 homeLink m =
     a
-        [ href "/elm-products/#"
+        [ href "/elm-products/buidl/"
         , css
             [ textDecoration none
             , fontSize <| m.theme.typography.h3

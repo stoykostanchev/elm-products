@@ -161,7 +161,7 @@ productCard t i c =
             , div [] [ strong [] [ text <| String.fromInt c.carwowRating ], text "/10" ]
             ]
         , a
-            [ href ("/elm-products/#/product/" ++ String.fromInt c.id)
+            [ href ("/elm-products/build#/product/" ++ String.fromInt c.id)
             , css
                 [ primaryBtnStyle t
                 ]
