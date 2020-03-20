@@ -205,7 +205,9 @@ view model =
                             [ text product.make ]
                         , div
                             []
-                            [ text <| "£" ++ String.fromInt product.rrp ++ " (rrp)" ]
+                            [ text <| "£" ++ String.fromInt product.rrp
+                            , p [ css [ float right, fontSize model.theme.typography.helper ] ] [ text " (rrp)" ]
+                            ]
                         ]
                     , h2
                         []

@@ -107,21 +107,33 @@ darkTheme =
         newColors =
             { bodyBg = rgb 80 80 80
             , bodyLargeViewSideBg = rgb 40 40 40
-            , buttonPrimaryBg = hex "#a0a0a0"
-            , buttonPrimaryBrdr = rgb 180 180 180
+            , buttonPrimaryBg = rgb 140 130 80
+            , buttonPrimaryBrdr = rgb 130 130 130
             , buttonPrimaryDisabledBrdr = rgb 100 100 100
-            , buttonPrimaryHoverBg = rgb 60 60 60
-            , buttonPrimaryHoverBrdr = rgb 80 80 80
+            , buttonPrimaryHoverBg = rgb 100 100 70
+            , buttonPrimaryHoverBrdr = rgb 130 130 130
             , cardActiveProductBg = rgb 100 100 100
             , cardBg = rgb 80 80 80
             , cardBrdr = rgb 120 120 120
             , headerBtmBrdr = hex "#787878"
             , headerBg = hex "#787878"
-            , text = rgb 0 0 0
+            , text = rgb 225 225 225
             , textInverted = rgb 255 255 255
             }
+
+        newTypography =
+            { h1 = rem 7.478
+            , h2 = rem 5.61
+            , h3 = rem 4.209
+            , h4 = rem 3.157
+            , h5 = rem 2.369
+            , p = rem 1.777
+            , helper = rem 1.333
+            , copyright = rem 0.75
+            , fontFamilies = [ "monospace" ]
+            }
     in
-    { colorTheme | colors = newColors }
+    { colorTheme | colors = newColors, typography = newTypography }
 
 
 init : ( Model, Cmd msg )
