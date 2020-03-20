@@ -1,13 +1,13 @@
 {
-  "main.css": "/static/css/main.79cc1341.chunk.css",
-  "main.js": "/static/js/main.9731a2fb.chunk.js",
-  "main.js.map": "/static/js/main.9731a2fb.chunk.js.map",
-  "runtime~main.js": "/static/js/runtime~main.1b922744.js",
-  "runtime~main.js.map": "/static/js/runtime~main.1b922744.js.map",
-  "vendors~main.js": "/static/js/vendors~main.604c6712.chunk.js",
-  "vendors~main.js.map": "/static/js/vendors~main.604c6712.chunk.js.map",
-  "./service-worker.js": "/./service-worker.js",
-  "favicon.ico": "/favicon.ico",
-  "index.html": "/index.html",
-  "precache-manifest.70c04481280c9042004961455c0ee815.js": "/precache-manifest.70c04481280c9042004961455c0ee815.js"
+  "main.css": "/elm-products/build/static/css/main.361de24b.chunk.css",
+  "main.js": "/elm-products/build/static/js/main.c1e363a6.chunk.js",
+  "main.js.map": "/elm-products/build/static/js/main.c1e363a6.chunk.js.map",
+  "runtime~main.js": "/elm-products/build/static/js/runtime~main.85557e2e.js",
+  "runtime~main.js.map": "/elm-products/build/static/js/runtime~main.85557e2e.js.map",
+  "vendors~main.js": "/elm-products/build/static/js/vendors~main.36a157e3.chunk.js",
+  "vendors~main.js.map": "/elm-products/build/static/js/vendors~main.36a157e3.chunk.js.map",
+  "./service-worker.js": "/elm-products/build/./service-worker.js",
+  "favicon.ico": "/elm-products/build/favicon.ico",
+  "index.html": "/elm-products/build/index.html",
+  "precache-manifest.fa68cc87826a11fc5d4d6c889807ef1e.js": "/elm-products/build/precache-manifest.fa68cc87826a11fc5d4d6c889807ef1e.js"
 }

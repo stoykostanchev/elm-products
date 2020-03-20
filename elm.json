@@ -1,5 +1,6 @@
 {
     "type": "application",
+    "homepage": "https://stoykostanchev.github.io/elm-products/build/",
     "source-directories": [
         "src"
     ],
