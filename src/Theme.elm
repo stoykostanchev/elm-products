@@ -25,8 +25,8 @@ type alias Typography =
 
 type alias Colors =
     { headerBg : Color
-    , primary_200 : Color
     , cardBrdr : Color
+    , headerBtmBrdr : Color
     , neutral_100 : Color
     , neutral_200 : Color
     , neutral_300 : Color
@@ -58,8 +58,8 @@ defaultTheme : Model
 defaultTheme =
     { colors =
         { headerBg = rgb 120 120 120
-        , primary_200 = rgb 120 120 120
         , cardBrdr = rgb 120 120 120
+        , headerBtmBrdr = rgb 120 120 120
         , neutral_100 = rgb 40 40 40
         , neutral_200 = rgb 80 80 80
         , neutral_300 = rgb 160 160 160

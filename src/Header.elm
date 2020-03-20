@@ -79,7 +79,7 @@ view m =
         [ css
             [ Theme.inset m.theme.spacing.space_s
             , backgroundColor m.theme.colors.headerBg
-            , borderBottom3 (px 1) solid m.theme.colors.primary_200
+            , borderBottom3 (px 1) solid m.theme.colors.headerBtmBrdr
             , displayFlex
             , alignItems center
             , justifyContent center
