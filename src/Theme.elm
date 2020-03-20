@@ -116,18 +116,29 @@ lightTheme =
 colorTheme : Model
 colorTheme =
     let
-        oldC =
-            defaultTheme.colors
-
         newColors =
-            { oldC | headerBg = rgb 0 255 0 }
+            { bodyBg = rgb 80 80 80
+            , bodyLargeViewSideBg = rgb 40 40 40
+            , buttonPrimaryBg = hex "#a0a0a0"
+            , buttonPrimaryBrdr = rgb 180 180 180
+            , buttonPrimaryDisabledBrdr = rgb 100 100 100
+            , buttonPrimaryHoverBg = rgb 60 60 60
+            , buttonPrimaryHoverBrdr = rgb 80 80 80
+            , cardActiveProductBg = rgb 100 100 100
+            , cardBg = rgb 80 80 80
+            , cardBrdr = rgb 120 120 120
+            , headerBtmBrdr = hex "#787878"
+            , headerBg = hex "#787878"
+            , text = rgb 0 0 0
+            , textInverted = rgb 255 255 255
+            }
     in
     { defaultTheme | colors = newColors }
 
 
 init : ( Model, Cmd msg )
 init =
-    ( defaultTheme
+    ( colorTheme
     , Cmd.none
     )
 
