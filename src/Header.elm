@@ -78,7 +78,7 @@ view m =
     nav
         [ css
             [ Theme.inset m.theme.spacing.space_s
-            , backgroundColor m.theme.colors.primary_100
+            , backgroundColor m.theme.colors.headerBg
             , borderBottom3 (px 1) solid m.theme.colors.primary_200
             , displayFlex
             , alignItems center

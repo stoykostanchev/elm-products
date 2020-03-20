@@ -111,7 +111,7 @@ colorDisplay t c =
             , Css.width <| px 30
             , Css.height <| px 30
             , borderRadius <| px 5
-            , border3 (px 1) solid t.colors.neutral_100
+            , border3 (px 1) solid t.colors.cardBrdr
             , Theme.inline t.spacing.space_m
             ]
         ]

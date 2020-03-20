@@ -114,7 +114,7 @@ productCard t i c =
         , css
             [ listStyle none
             , borderRadius <| px 5
-            , border3 (px 1) solid t.colors.primary_100
+            , border3 (px 1) solid t.colors.cardBrdr
             , margin <| px t.spacing.space_m
             , padding <| px t.spacing.space_m
             , marginTop <| px t.spacing.space_m

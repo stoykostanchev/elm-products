@@ -24,8 +24,9 @@ type alias Typography =
 
 
 type alias Colors =
-    { primary_100 : Color
+    { headerBg : Color
     , primary_200 : Color
+    , cardBrdr : Color
     , neutral_100 : Color
     , neutral_200 : Color
     , neutral_300 : Color
@@ -56,8 +57,9 @@ type alias Model =
 defaultTheme : Model
 defaultTheme =
     { colors =
-        { primary_100 = rgb 120 120 120
+        { headerBg = rgb 120 120 120
         , primary_200 = rgb 120 120 120
+        , cardBrdr = rgb 120 120 120
         , neutral_100 = rgb 40 40 40
         , neutral_200 = rgb 80 80 80
         , neutral_300 = rgb 160 160 160
@@ -91,36 +93,44 @@ defaultTheme =
 
 lightTheme : Model
 lightTheme =
-    let
-        newColors =
-            { primary_100 = rgb 80 80 80
-            , primary_200 = rgb 80 80 80
-            , neutral_100 = rgb 180 180 180
-            , neutral_200 = rgb 140 140 140
-            , neutral_300 = rgb 100 100 100
-            , neutral_400 = rgb 60 60 60
-            , text = rgb 20 20 20
-            , textInverted = rgb 20 20 20
-            }
-    in
-    { defaultTheme | colors = newColors }
+    defaultTheme
+
+
+
+-- let
+--     newColors =
+--         { primary_100 = rgb 80 80 80
+--         , primary_200 = rgb 80 80 80
+--         , neutral_100 = rgb 180 180 180
+--         , neutral_200 = rgb 140 140 140
+--         , neutral_300 = rgb 100 100 100
+--         , neutral_400 = rgb 60 60 60
+--         , text = rgb 20 20 20
+--         , textInverted = rgb 20 20 20
+--         }
+-- in
+-- { defaultTheme | colors = newColors }
 
 
 colorTheme : Model
 colorTheme =
-    let
-        newColors =
-            { primary_100 = rgb 80 80 80
-            , primary_200 = rgb 80 80 80
-            , neutral_100 = rgb 180 180 180
-            , neutral_200 = rgb 140 140 140
-            , neutral_300 = rgb 100 100 100
-            , neutral_400 = rgb 200 200 200
-            , text = rgb 20 20 20
-            , textInverted = rgb 20 20 20
-            }
-    in
-    { defaultTheme | colors = newColors }
+    defaultTheme
+
+
+
+-- let
+--     newColors =
+--         { primary_100 = rgb 80 80 80
+--         , primary_200 = rgb 80 80 80
+--         , neutral_100 = rgb 180 180 180
+--         , neutral_200 = rgb 140 140 140
+--         , neutral_300 = rgb 100 100 100
+--         , neutral_400 = rgb 200 200 200
+--         , text = rgb 20 20 20
+--         , textInverted = rgb 20 20 20
+--         }
+-- in
+-- { defaultTheme | colors = newColors }
 
 
 init : ( Model, Cmd msg )
