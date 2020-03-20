@@ -28,7 +28,7 @@ primaryBtnStyle t =
             , Css.Transitions.color 200
             ]
         , hover
-            [ Css.backgroundColor t.colors.neutral_300
+            [ Css.backgroundColor t.colors.buttonPrimaryHoverBg
             , borderColor t.colors.neutral_400
             , Css.color t.colors.textInverted
             ]

@@ -31,7 +31,7 @@ type alias Colors =
     , cardActiveProductBg : Color
     , largeViewSideBg : Color
     , bodyBg : Color
-    , neutral_300 : Color
+    , buttonPrimaryHoverBg : Color
     , neutral_400 : Color
     , text : Color
     , textInverted : Color
@@ -66,7 +66,7 @@ defaultTheme =
         , cardActiveProductBg = rgb 40 40 40
         , largeViewSideBg = rgb 40 40 40
         , bodyBg = rgb 80 80 80
-        , neutral_300 = rgb 160 160 160
+        , buttonPrimaryHoverBg = rgb 160 160 160
         , neutral_400 = rgb 160 160 160
         , text = rgb 0 0 0
         , textInverted = rgb 255 255 255
