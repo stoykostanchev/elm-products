@@ -26,14 +26,10 @@ type alias Typography =
 type alias Colors =
     { primary_100 : Color
     , primary_200 : Color
-    , primary_300 : Color
-    , primary_400 : Color
-    , primary_500 : Color
     , neutral_100 : Color
     , neutral_200 : Color
     , neutral_300 : Color
     , neutral_400 : Color
-    , neutral_500 : Color
     , text : Color
     , textInverted : Color
     }
@@ -62,14 +58,10 @@ defaultTheme =
     { colors =
         { primary_100 = rgb 120 120 120
         , primary_200 = rgb 120 120 120
-        , primary_300 = rgb 120 120 120
-        , primary_400 = rgb 120 120 120
-        , primary_500 = rgb 120 120 120
-        , neutral_300 = rgb 120 120 120
-        , neutral_200 = rgb 80 80 80
         , neutral_100 = rgb 40 40 40
+        , neutral_200 = rgb 80 80 80
+        , neutral_300 = rgb 160 160 160
         , neutral_400 = rgb 160 160 160
-        , neutral_500 = rgb 200 200 200
         , text = rgb 0 0 0
         , textInverted = rgb 255 255 255
         }
@@ -95,6 +87,40 @@ defaultTheme =
         , fontFamilies = [ "proxima-nova-1", "Roboto" ]
         }
     }
+
+
+lightTheme : Model
+lightTheme =
+    let
+        newColors =
+            { primary_100 = rgb 80 80 80
+            , primary_200 = rgb 80 80 80
+            , neutral_100 = rgb 180 180 180
+            , neutral_200 = rgb 140 140 140
+            , neutral_300 = rgb 100 100 100
+            , neutral_400 = rgb 60 60 60
+            , text = rgb 20 20 20
+            , textInverted = rgb 20 20 20
+            }
+    in
+    { defaultTheme | colors = newColors }
+
+
+colorTheme : Model
+colorTheme =
+    let
+        newColors =
+            { primary_100 = rgb 80 80 80
+            , primary_200 = rgb 80 80 80
+            , neutral_100 = rgb 180 180 180
+            , neutral_200 = rgb 140 140 140
+            , neutral_300 = rgb 100 100 100
+            , neutral_400 = rgb 200 200 200
+            , text = rgb 20 20 20
+            , textInverted = rgb 20 20 20
+            }
+    in
+    { defaultTheme | colors = newColors }
 
 
 init : ( Model, Cmd msg )

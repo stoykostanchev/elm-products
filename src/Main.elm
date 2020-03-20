@@ -46,20 +46,8 @@ type Msg
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case ( msg, model.page ) of
-        ( ThemeChanged (Header.Primary1Changed c), page ) ->
+        ( ThemeChanged (ThemeSet theme), page ) ->
             let
-                oldColors =
-                    model.theme.colors
-
-                oldTheme =
-                    model.theme
-
-                colors =
-                    { oldColors | neutral_100 = hex c }
-
-                theme =
-                    { oldTheme | colors = colors }
-
                 newModel =
                     { model | theme = theme }
 
